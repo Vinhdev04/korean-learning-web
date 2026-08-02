@@ -1,0 +1,31 @@
+// OLD: File babel.config.js của Expo/React Native cũ bị copy nhầm sang dự án Web Next.js.
+// Đã được sao lưu tại đây và loại bỏ khỏi dự án Web để Next.js sử dụng SWC compiler mặc định.
+
+/*
+module.exports = {
+  presets: ["babel-preset-expo"],
+  plugins: [
+    [
+      "module-resolver",
+      {
+        root: ["./src"],
+        extensions: [
+          ".ios.ts",
+          ".android.ts",
+          ".ts",
+          ".ios.tsx",
+          ".android.tsx",
+          ".tsx",
+          ".js",
+          ".jsx",
+          ".json",
+        ],
+        alias: {
+          "@": "./src",
+        },
+      },
+    ],
+    // "react-native-reanimated/plugin",
+  ],
+};
+*/

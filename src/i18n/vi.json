@@ -1,0 +1,9 @@
+{
+  "address": "Địa chỉ",
+  "contact": "Liên hệ",
+  "requireName": "Vui lòng nhập tên",
+  "requireEmail": "Vui lòng nhập email",
+  "requireMessage": "Vui lòng nhập lời nhắn",
+  "invalidEmail": "Email không đúng định dạng",
+  "customer": "Khách hàng"
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "next/core-web-vitals",
+  "plugins": ["tailwindcss"],
+  "rules": {
+    "tailwindcss/no-contradicting-classname": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "@next/next/no-img-element": "off"
+  }
+}
