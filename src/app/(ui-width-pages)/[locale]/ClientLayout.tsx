@@ -77,7 +77,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           </div>
 
           {/* Floating Action Hub (Includes Contact Icons & Back to Top) */}
-          <FloatingActionHub />
+          {/* OLD: <FloatingActionHub /> */}
+          <FloatingActionHub locale={locale} />
         </div>
       </LanguageProvider>
     </NextIntlClientProvider>
