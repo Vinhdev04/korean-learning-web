@@ -33,7 +33,8 @@ export default function FloatingActionHub() {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-6 right-6 z-50 rounded-full bg-indigo-600 p-3 text-white shadow-lg transition-all hover:bg-indigo-700"
+      // OLD: className="fixed bottom-6 right-6 z-50 rounded-full bg-indigo-600 p-3 text-white shadow-lg transition-all hover:bg-indigo-700"
+      className="fixed bottom-6 right-6 z-50 rounded-full bg-korean-red p-3 text-white shadow-lg transition-all hover:bg-korean-red-hover active:scale-95"
       aria-label="Back to top"
     >
       ↑
