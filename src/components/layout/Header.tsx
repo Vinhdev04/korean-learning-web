@@ -75,21 +75,25 @@ export default function HeaderClient() {
   const isHomePage =
     pathname === `/${locale}` || pathname === '/' || pathname === `/vn` || pathname === `/en`;
 
-  // Xác định active tab dựa trên pathname
-  const isActive = (path: string) => {
-    return pathname.includes(path);
-  };
-
-  // Lớp CSS cho container header tùy thuộc vào vị trí cuộn và trang hiện tại
+  // Header được thiết lập cố định (fixed) trên mọi trang để đảm bảo không bị chìm khi scroll
   const headerClass = isHomePage
     ? isScrolled
-      ? 'fixed top-0 left-0 w-full bg-white/95 dark:bg-stone-900/95 border-b border-stone-200/50 dark:border-stone-800/80 backdrop-blur-md text-charcoal dark:text-stone-100 z-50 transition-all duration-300 shadow-sm'
-      : 'absolute top-0 left-0 w-full bg-transparent border-b border-transparent text-white z-50 transition-all duration-300'
-    : 'sticky top-0 w-full bg-white dark:bg-stone-900 border-b border-stone-200/50 dark:border-stone-800/80 backdrop-blur-md text-charcoal dark:text-stone-100 z-50 transition-all duration-300';
+      ? 'fixed top-0 left-0 w-full bg-white/95 dark:bg-stone-950/95 border-b border-stone-200/50 dark:border-stone-850/80 backdrop-blur-md text-charcoal dark:text-stone-100 z-50 transition-all duration-300 shadow-sm'
+      : 'fixed top-0 left-0 w-full bg-transparent border-b border-transparent text-white z-50 transition-all duration-300'
+    : 'fixed top-0 left-0 w-full bg-white/95 dark:bg-stone-950/95 border-b border-stone-200/50 dark:border-stone-850/80 backdrop-blur-md text-charcoal dark:text-stone-100 z-50 transition-all duration-300 shadow-sm';
 
   // Lớp CSS cho menu link tùy thuộc vào trang chủ/trạng thái cuộn và trạng thái active
+  // Sửa thuật toán xác định active chính xác dựa trên cấu trúc URL để tránh trùng lặp active khi chuyển trang
   const getMenuLinkClass = (path: string, exact = false) => {
-    const active = exact ? pathname === `/${locale}` || pathname === '/' : isActive(path);
+    const cleanPathname =
+      pathname.endsWith('/') && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
+    const homePath = `/${locale}`;
+    const targetPath = path ? `/${locale}${path}` : homePath;
+
+    // OLD: const active = exact ? pathname === `/${locale}` || pathname === '/' : isActive(path);
+    const active = exact
+      ? cleanPathname === homePath || cleanPathname === '/'
+      : cleanPathname === targetPath || cleanPathname.startsWith(targetPath + '/');
 
     if (isHomePage && !isScrolled) {
       return `px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${
@@ -123,7 +127,8 @@ export default function HeaderClient() {
         </Link>
 
         {/* MENU ĐIỀU HƯỚNG CHÍNH GIỮA (DESKTOP) */}
-        <nav className="hidden md:flex items-center gap-1 font-sans">
+        {/* OLD: <nav className="hidden md:flex items-center gap-1 font-sans"> */}
+        <nav className="hidden lg:flex items-center gap-1 font-sans">
           <Link href={`/${locale}`} className={getMenuLinkClass('', true)}>
             Trang chủ
           </Link>
@@ -179,7 +184,8 @@ export default function HeaderClient() {
           </button>
 
           {/* Trạng thái Đăng nhập / Đăng ký (Desktop) */}
-          <div className="hidden md:flex items-center gap-2">
+          {/* OLD: <div className="hidden md:flex items-center gap-2"> */}
+          <div className="hidden lg:flex items-center gap-2">
             {isLoggedIn ? (
               <div className="flex items-center gap-3 pl-3 border-l border-stone-200 dark:border-stone-800">
                 <div className="relative w-9 h-9 rounded-full overflow-hidden border border-stone-200 dark:border-stone-850 shadow-sm">
@@ -224,9 +230,10 @@ export default function HeaderClient() {
           </div>
 
           {/* Toggle Menu di động (Mobile) */}
+          {/* OLD: md:hidden */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`p-2.5 rounded-xl md:hidden transition-colors hover:bg-stone-50 dark:hover:bg-stone-850 text-charcoal-muted dark:text-stone-300 ${
+            className={`p-2.5 rounded-xl lg:hidden transition-colors hover:bg-stone-50 dark:hover:bg-stone-850 text-charcoal-muted dark:text-stone-300 ${
               isHomePage && !isScrolled ? 'hover:bg-white/10 text-white/90' : ''
             }`}
             aria-label="Toggle menu"
@@ -237,8 +244,9 @@ export default function HeaderClient() {
       </div>
 
       {/* PANEL MENU DI ĐỘNG (MOBILE LAYOUT) */}
+      {/* OLD: md:hidden */}
       {mobileMenuOpen && (
-        <div className="absolute top-20 left-0 w-full bg-white dark:bg-stone-900 border-b border-stone-200/80 dark:border-stone-800 p-6 flex flex-col gap-4 md:hidden shadow-lg animate-in fade-in slide-in-from-top-5 duration-300 font-sans z-50">
+        <div className="absolute top-20 left-0 w-full bg-white dark:bg-stone-900 border-b border-stone-200/80 dark:border-stone-800 p-6 flex flex-col gap-4 lg:hidden shadow-lg animate-in fade-in slide-in-from-top-5 duration-300 font-sans z-50">
           <Link
             href={`/${locale}`}
             onClick={() => setMobileMenuOpen(false)}

@@ -74,7 +74,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         >
           <div className="bg-white dark:bg-stone-950 transition-colors duration-300">
             <HeaderClient />
-            {children}
+            <main className={isHomePage ? '' : 'pt-20'}>{children}</main>
           </div>
 
           <div className="relative w-full overflow-hidden bg-warmCream dark:bg-stone-950 pb-2">
