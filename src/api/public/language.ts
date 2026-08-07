@@ -1,4 +1,4 @@
-import axiosInstance from '@/hooks/useAxiosService';
+import axiosInstance from '@/core/hooks/useAxiosService';
 import { useState } from 'react';
 
 export interface Language {
@@ -27,7 +27,6 @@ const useServiceApiPublicLanguage = () => {
     }
   };
 
-  
   return { getLanguage, loading };
 };
 

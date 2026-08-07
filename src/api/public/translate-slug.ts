@@ -1,4 +1,4 @@
-import axiosInstance from '@/hooks/useAxiosService';
+import axiosInstance from '@/core/hooks/useAxiosService';
 
 export interface TranslateSlug {
   parentLink?: string;

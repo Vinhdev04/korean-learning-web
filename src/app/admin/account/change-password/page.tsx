@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import axiosInstance from '@/hooks/useAxiosService';
+import axiosInstance from '@/core/hooks/useAxiosService';
 import { crypto } from '@/lib/index';
 import { toast } from 'react-toastify';
 import Spinner from '@/components/ui/Spinner';

@@ -1,4 +1,3 @@
-// OLD:
 /*
 export default function AdminDashboardPage() {
   return (
@@ -25,20 +24,7 @@ import {
 export default function AdminDashboardPage() {
   return (
     <div className="space-y-8 font-outfit">
-      
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
-            Tổng quan hệ thống
-          </h1>
-          <p className="text-slate-500 text-sm mt-1">
-            Báo cáo thống kê hoạt động học tập và tương tác của học viên hôm nay.
-          </p>
-        </div>
-      </div>
 
-      {/* 1. Stat Cards Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { name: 'Tổng học viên', value: '1,248', desc: '+12% so với tháng trước', icon: Users, color: 'bg-teal-50 text-teal-600 border-teal-100' },
@@ -70,20 +56,6 @@ export default function AdminDashboardPage() {
         ))}
       </div>
 
-      {/* 2. Charts & Lists Grid */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        
-        {/* Left: Custom CSS Columns Chart (Visual Data Viz) */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-2 space-y-6 flex flex-col justify-between">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-bold text-slate-950 flex items-center gap-1.5">
-              <TrendingUp size={18} className="text-teal-600" />
-              Lượt tương tác học tập
-            </h3>
-            <span className="text-xs text-slate-500 font-semibold bg-slate-100 px-3 py-1 rounded-full">7 ngày qua</span>
-          </div>
-
-          {/* Custom Column Chart */}
           <div className="flex items-end justify-between h-56 pt-6 px-2 border-b border-slate-100">
             {[
               { day: 'Thứ 2', height: '40%', val: '120 lượt' },
@@ -95,34 +67,14 @@ export default function AdminDashboardPage() {
               { day: 'Chủ Nhật', height: '60%', val: '190 lượt' }
             ].map((col, idx) => (
               <div key={idx} className="flex flex-col items-center group w-1/8 space-y-2">
-                {/* Val Tooltip on Hover */}
-                <span className="opacity-0 group-hover:opacity-100 text-[10px] bg-slate-900 text-white font-bold px-2 py-0.5 rounded-lg -translate-y-1 transition-all duration-300">
-                  {col.val}
-                </span>
                 
-                {/* Bar */}
                 <div 
                   style={{ height: col.height }} 
                   className="w-full bg-slate-200 group-hover:bg-teal-600 rounded-t-xl transition-all duration-500 cursor-pointer shadow-inner relative"
                 >
                   <div className="absolute inset-0 bg-teal-500/10 group-hover:bg-transparent rounded-t-xl transition-all" />
                 </div>
-                
-                {/* Label */}
-                <span className="text-[10px] font-bold text-slate-400 group-hover:text-slate-700 transition-colors uppercase pt-2">
-                  {col.day}
-                </span>
-              </div>
-            ))}
-          </div>
 
-          <div className="flex justify-between items-center text-xs text-slate-500 pt-1">
-            <p>Trục ngang: Các ngày trong tuần</p>
-            <p className="flex items-center gap-1 text-teal-600 font-bold"><Sparkles size={12} /> Tương tác đạt đỉnh: Thứ 7</p>
-          </div>
-        </div>
-
-        {/* Right: New Students List */}
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-bold text-slate-950 flex items-center gap-1.5">

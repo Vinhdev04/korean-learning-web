@@ -16,7 +16,6 @@ export const removeVietnameseTones = (str: string) => {
   
     return str;
   };
-  
 
 export const generateLinkFromName = (str: string): string => {
   const normalizedName = removeVietnameseTones(str);

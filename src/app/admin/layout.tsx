@@ -3,26 +3,14 @@ import { NextIntlClientProvider } from 'next-intl';
 import i18n_vi from '@/i18n/admin/vi.json';
 import './admin.scss';
 
-// OLD:
-/*
-import { Be_Vietnam_Pro } from 'next/font/google';
-const beVietnamPro = Be_Vietnam_Pro({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-});
-...
-*/
-
-
-
-import { useSidebar } from '@/context/SidebarContext';
-import AppHeader from '@/app/admin/(ui-elements)/AppHeader';
-import AppSidebar from '@/app/admin/(ui-elements)/AppSidebar';
-import Backdrop from '@/app/admin/(ui-elements)/Backdrop';
+import { useSidebar } from '@/core/context/SidebarContext';
+import AppHeader from '@/modules/admin/components/AppHeader';
+import AppSidebar from '@/modules/admin/components/AppSidebar';
+import Backdrop from '@/modules/admin/components/Backdrop';
 import React, { Suspense, useEffect } from 'react';
 import useApiAuthen from '@/service/authService';
-import useAxiosInterceptor from '@/hooks/useAxiosInterceptor';
-import { LanguageProvider } from '@/context/LanguageContext';
+import useAxiosInterceptor from '@/core/hooks/useAxiosInterceptor';
+import { LanguageProvider } from '@/core/context/LanguageContext';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { checkSession } = useApiAuthen();
@@ -52,7 +40,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       getMessageFallback={({ key }) => `${key}`}
     >
       <LanguageProvider>
-        {/* OLD: <div className={`${beVietnamPro.className} dark:bg-gray-900`}> */}
+        
         <div className="font-outfit text-slate-900 bg-slate-50 min-h-screen">
           <div className="min-h-screen xl:flex">
             <AppSidebar />

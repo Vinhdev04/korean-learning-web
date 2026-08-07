@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import axiosInstance from '@/hooks/useAxiosService';
+import axiosInstance from '@/core/hooks/useAxiosService';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import  { useRouter } from 'next/navigation';

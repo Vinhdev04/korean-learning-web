@@ -1,4 +1,4 @@
-import axiosInstance from "@/hooks/useAxiosService";
+import axiosInstance from "@/core/hooks/useAxiosService";
 import { useState } from "react";
 
 export interface Product {
@@ -11,7 +11,6 @@ export interface Product {
   href: string;
   list: []
 }
-
 
 export interface Page {
   id: number;

@@ -6,7 +6,7 @@ import Input from '@/components/form/input/InputField';
 import Label from '@/components/form/Label';
 import DropzoneComponent from '@/components/form/form-elements/DropZone';
 import TextArea from '@/components/form/input/TextArea';
-import { BenefitData } from '@/types/benefit';
+import { BenefitData } from '@/core/types/benefit';
 import Button from '../ui/button/Button';
 
 interface PageInterfaceProps {

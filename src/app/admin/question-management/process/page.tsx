@@ -1,7 +1,7 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import axiosInstance from '@/hooks/useAxiosService';
+import axiosInstance from '@/core/hooks/useAxiosService';
 import { toast } from 'react-toastify';
 import Spinner from '@/components/ui/Spinner';
 import PageBreadcrumb from '@/components/common/PageBreadCrumb';
@@ -333,34 +333,6 @@ export default function Process() {
                   hint={errors.name}
                 />
               </div>
-
-              {/* <div>
-                <Label htmlFor="link">Link</Label>
-                <Input
-                  type="text"
-                  name="link"
-                  id="link"
-                  value={formData.link}
-                  placeholder="Nhập link"
-                  onChange={handleInputChange}
-                  error={!!errors.link}
-                  hint={errors.link}
-                />
-              </div> */}
-
-              {/* <div>
-                <Label htmlFor="title">Tiêu đề</Label>
-                <Input
-                  type="text"
-                  name="title"
-                  id="title"
-                  value={formData.title}
-                  placeholder="Nhập tiêu đề"
-                  onChange={handleInputChange}
-                  error={!!errors.title}
-                  hint={errors.title}
-                />
-              </div> */}
 
               <div>
                 <Label htmlFor="sort">Sắp xếp</Label>

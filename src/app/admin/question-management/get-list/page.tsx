@@ -2,13 +2,12 @@
 import ConfirmDelete from "@/components/tables/ConfirmDelete";
 import ComponentTable from "@/components/tables/Table";
 import Spinner from "@/components/ui/Spinner";
-import axiosInstance from "@/hooks/useAxiosService";
+import axiosInstance from "@/core/hooks/useAxiosService";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import AddButton from "@/components/button/add-button";
 import { crypto } from "@/lib/index";
-
 
 type Page = {
   id: number;

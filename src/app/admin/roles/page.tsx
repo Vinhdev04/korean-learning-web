@@ -17,26 +17,7 @@ export default function AdminRolesPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {/* List of roles */}
-        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white">Danh sách Vai trò</h3>
-          <ul className="mt-4 space-y-2">
-            {['Super Admin', 'Admin Content', 'Học viên (User)'].map((role, idx) => (
-              <li
-                key={idx}
-                className={`cursor-pointer rounded-md p-3 text-sm font-medium transition-all ${
-                  idx === 0
-                    ? 'bg-indigo-50 text-indigo-700 dark:bg-gray-800 dark:text-white'
-                    : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'
-                }`}
-              >
-                {role}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Permissions setup matrix (Skeleton) */}
+        
         <div className="md:col-span-2 rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white">Chi tiết Quyền hạn (Super Admin)</h3>
           

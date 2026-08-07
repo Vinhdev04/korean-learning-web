@@ -2,7 +2,7 @@
 import ConfirmDelete from "@/components/tables/ConfirmDelete";
 import ComponentTable from "@/components/tables/Table";
 import Spinner from "@/components/ui/Spinner";
-import axiosInstance from "@/hooks/useAxiosService";
+import axiosInstance from "@/core/hooks/useAxiosService";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -106,8 +106,6 @@ export default function GetList() {
       clearTimeout(handler);
     };
   }, [keysearch]);
-
-
 
   const changeStatus = async (item: FormDataItem) => {
     try {

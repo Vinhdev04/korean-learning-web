@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.gitignore
+.idea
+Process
+BA
+api.docs
+tsconfig.tsbuildinfo
+package-lock.json
+pnpm-lock.yaml
+Dockerfile
+.dockerignore
+README.md

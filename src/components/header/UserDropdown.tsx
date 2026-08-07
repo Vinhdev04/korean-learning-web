@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import axiosInstance from "@/hooks/useAxiosService";
+import axiosInstance from "@/core/hooks/useAxiosService";
 import { toast } from "react-toastify";
 import AuthService from "@/service/authService";
 import { useRouter } from "next/navigation";

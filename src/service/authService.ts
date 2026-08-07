@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axiosInstance from '../hooks/useAxiosService';
+import axiosInstance from '@/core/hooks/useAxiosService';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { encryptForClient } from '@/lib/rsa-encrypt';

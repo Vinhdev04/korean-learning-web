@@ -12,7 +12,6 @@ interface ConfirmDialogProps {
     cancelText?: string;
 }
 
-
 export default function ConfirmDialog({
     isOpen,
     onClose,

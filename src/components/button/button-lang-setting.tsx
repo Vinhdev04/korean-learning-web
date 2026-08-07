@@ -1,5 +1,5 @@
 "use client";
-import axiosInstance from "@/hooks/useAxiosService";
+import axiosInstance from "@/core/hooks/useAxiosService";
 import { useEffect, useState } from "react";
 
 type Props = {

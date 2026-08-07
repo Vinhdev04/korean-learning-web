@@ -6,7 +6,7 @@ import Input from '@/components/form/input/InputField';
 import Label from '@/components/form/Label';
 import DropzoneComponent from '@/components/form/form-elements/DropZone';
 import TextArea from '@/components/form/input/TextArea';
-import { BenefitData } from '@/types/benefit';
+import { BenefitData } from '@/core/types/benefit';
 import Button from '../ui/button/Button';
 
 interface PageBuilderProps {
@@ -115,60 +115,8 @@ export default function PageBuilder({ benefitData, setBenefitData }: PageBuilder
             placeholder="Nhập tiêu đề"
           />
 
-          {/* <div className="mt-4">
-                        <Label htmlFor="detail">Chi tiết</Label>
-                        <TextArea
-                            id="detail"
-                            placeholder="Nhập nội dung chi tiết"
-                            rows={5}
-                            value={benefitData.detail}
-                            onChange={(value) =>
-                                setBenefitData({ ...benefitData, detail: value })
-                            }
-                        />
-                    </div> */}
         </div>
 
-        {/* <div className="m-auto">
-          <Label>Hình ảnh</Label>
-          {parentImageUploaded && benefitData.image?.src ? (
-            <div className="relative w-40 h-40">
-              <img
-                src={benefitData.image.src}
-                alt="uploaded"
-                className="object-contain w-full h-full rounded"
-              />
-              <button
-                type="button"
-                onClick={handleParentImageRemove}
-                className="absolute top-0 right-0 text-red-500 bg-white rounded-full w-6 h-6 flex items-center justify-center text-base"
-                style={{ transform: 'translate(40%, -40%)' }}
-                aria-label="Xóa ảnh"
-              >
-                &#10005;
-              </button>
-            </div>
-          ) : !parentImageUploaded && !parentImageRemoved && benefitData.image?.old ? (
-            <div className="relative w-40 h-40">
-              <img
-                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}public/uploads/page/${benefitData.image.old}`}
-                alt="uploaded"
-                className="object-contain w-full h-full rounded"
-              />
-              <button
-                type="button"
-                onClick={handleParentImageRemove}
-                className="absolute top-0 right-0 text-red-500 bg-white rounded-full w-6 h-6 flex items-center justify-center text-base"
-                style={{ transform: 'translate(40%, -40%)' }}
-                aria-label="Xóa ảnh"
-              >
-                &#10005;
-              </button>
-            </div>
-          ) : (
-            <DropzoneComponent onFileUpload={handleParentImageUpload} />
-          )}
-        </div> */}
       </div>
 
       <div className="mt-6">

@@ -101,21 +101,7 @@ const handleDeleteFile = () => {
 };
   return (
     <ComponentCard title="Hồ sơ năng lực">
-      {/* Form tiêu đề + link */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div>
-          {/* Tiêu đề */}
-          <Label htmlFor="name" className="block mb-2 font-semibold text-gray-800">
-            Tên Nút
-          </Label>
-          <Input
-            id="name"
-            value={aboutUsData.name}
-            onChange={e => setAboutUsData({ ...aboutUsData, name: e.target.value })}
-            placeholder="Nhập tiêu đề"
-            className="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200"
-          />
-          {/* Upload PDF */}
+      
           {!aboutUsData.link && !pdfName ? (
             <div className="mt-6">
               <Label htmlFor="link" className="block mb-2 font-semibold text-gray-800">
@@ -184,27 +170,6 @@ const handleDeleteFile = () => {
         </div>
       </div>
 
-      {/* Nút thêm & nút thu gọn */}
-      <div className="mt-6 flex gap-4">
-        <button
-          type="button"
-          onClick={handleAddChild}
-          className="text-blue-600 flex items-center gap-1"
-        >
-          <span className="text-xl font-bold">+</span> Thêm
-        </button>
-        {aboutUsData.children && (
-          <button
-            type="button"
-            onClick={() => setIsCollapsed(prev => !prev)}
-            className="text-gray-600 underline"
-          >
-            {isCollapsed ? 'Mở ' : 'Đóng'}
-          </button>
-        )}
-      </div>
-
-      {/* Danh sách children */}
       {!isCollapsed && (
         <div className={'mt-4 grid gap-2 md:grid-cols-3  grid-cols-1'}>
           {aboutUsData.children.map((child, index) => {
@@ -224,22 +189,6 @@ const handleDeleteFile = () => {
                   }}
                 />
 
-                {/* Chi tiết */}
-                <div className="mt-4">
-                  <Label>Chi tiết</Label>
-                  <TextArea
-                    value={child.detail}
-                    onChange={value => {
-                      const newChildren = [...aboutUsData.children];
-                      newChildren[index].detail = value;
-                      setAboutUsData({ ...aboutUsData, children: newChildren });
-                    }}
-                    rows={3}
-                    placeholder="Nhập nội dung chi tiết"
-                  />
-                </div>
-
-                {/* Hình ảnh */}
                 <div className="mt-4">
                   <Label>Hình ảnh</Label>
                   {hasImageSrc || hasOldImage ? (
