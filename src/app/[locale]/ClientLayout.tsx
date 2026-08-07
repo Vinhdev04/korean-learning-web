@@ -7,7 +7,7 @@ import '../styles.scss';
 import vi from '@/app/messages/vn.json';
 import en from '@/app/messages/en.json';
 
-import { Be_Vietnam_Pro } from 'next/font/google';
+// OLD: import { Be_Vietnam_Pro } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 // import HeaderClient from '../(ui-elements)/Header';
 // import Footer from '../(ui-elements)/Footer';
@@ -18,10 +18,7 @@ import { usePathname } from 'next/navigation';
 import { LanguageProvider } from '@/core/context/LanguageContext';
 // FloatingChat is now included inside FloatingActionHub
 
-const beVietnamPro = Be_Vietnam_Pro({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-});
+// OLD: const beVietnamPro = Be_Vietnam_Pro({ ... });
 
 const supportedLocales = ['vn', 'en'] as const;
 type Locale = (typeof supportedLocales)[number];
@@ -71,12 +68,13 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       getMessageFallback={({ key }) => `${key}`}
     >
       <LanguageProvider initialLanguage={locale}>
-        <div className={`${beVietnamPro.className}`} suppressHydrationWarning>
+        {/* OLD: <div className={`${beVietnamPro.className}`} suppressHydrationWarning> */}
+        <div className="font-sans" suppressHydrationWarning>
           <div className="bg-white">
             <HeaderClient />
             {children}
           </div>
-          
+
           <div className="relative w-full overflow-hidden bg-warmCream dark:bg-stone-950 pb-2">
             <Footer />
           </div>
