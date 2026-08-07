@@ -72,7 +72,12 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             <HeaderClient />
             {children}
           </div>
+          {/* OLD:
           <div className="relative w-full overflow-hidden bg-[#1a1c23] pb-2">
+            <Footer />
+          </div>
+          */}
+          <div className="relative w-full overflow-hidden bg-warmCream dark:bg-stone-950 pb-2">
             <Footer />
           </div>
 

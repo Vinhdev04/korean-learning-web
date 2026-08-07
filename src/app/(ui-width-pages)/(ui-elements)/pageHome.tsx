@@ -934,6 +934,7 @@ export default function HomePageClient() {
             {t('cta.desc')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center mb-6">
+            {/* OLD:
             <button 
               onClick={() => openAuthModal('REGISTER')}
               className="bg-white text-koreanRed border border-white hover:bg-warmCream text-sm font-extrabold py-4 px-10 rounded-xl transition-all active:scale-95"
@@ -945,6 +946,19 @@ export default function HomePageClient() {
               className="bg-white/10 hover:bg-white/20 text-white border border-white/20 text-sm font-extrabold py-4 px-10 rounded-xl transition-all active:scale-95 block text-center"
             >
               {t('cta.browse')}
+            </Link>
+            */}
+            <button 
+              onClick={() => openAuthModal('REGISTER')}
+              className="bg-white text-koreanRed border border-white hover:bg-[#FAF8F5] text-sm font-extrabold py-4 px-10 rounded-xl transition-all active:scale-95 shadow-md shadow-black/5"
+            >
+              Đăng ký miễn phí
+            </button>
+            <Link 
+              href={`/${locale}/courses`}
+              className="bg-[#9A1220] hover:bg-[#8F1020] text-white border border-[#B81D30]/30 text-sm font-extrabold py-4 px-10 rounded-xl transition-all active:scale-95 block text-center shadow-md shadow-black/5"
+            >
+              Xem khóa học
             </Link>
           </div>
           <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">

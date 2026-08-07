@@ -5,11 +5,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Mail, Flame, Compass } from 'lucide-react';
+// OLD: import { Mail, Flame, Compass } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 /**
  * Component Footer cho dự án Học Tiếng Hàn trực tuyến.
  * Cung cấp thông tin bản quyền và liên kết điều hướng theo phong cách Korean Red / Seoul Sunset nguyên bản.
+ * Được đồng bộ sang màu nền kem ấm sáng (warmCream) theo hình ảnh thiết kế.
  */
 export default function Footer() {
   const pathname = usePathname() || '/';
@@ -17,7 +19,7 @@ export default function Footer() {
   const isEn = locale === 'en';
 
   return (
-    <footer className="w-full bg-stone-50 dark:bg-stone-900 border-t border-stone-200/60 dark:border-stone-800/80 pt-16 pb-12 font-outfit text-charcoal-muted dark:text-stone-400 transition-colors duration-300">
+    <footer className="w-full bg-[#FDFBF7] dark:bg-stone-900 border-t border-stone-200/60 dark:border-stone-800/80 pt-16 pb-12 font-outfit text-charcoal-muted dark:text-stone-400 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           
@@ -31,7 +33,7 @@ export default function Footer() {
                 {isEn ? '한국어학당' : 'Hàn Quốc Học'}
               </span>
             </div>
-            <p className="text-xs leading-relaxed max-w-sm mt-2">
+            <p className="text-xs leading-relaxed max-w-sm mt-2 font-medium">
               {isEn 
                 ? 'Comprehensive online Korean learning platform from Beginner to Intermediate - Advanced levels. Conquer Korean and the TOPIK exam with you.'
                 : 'Nền tảng học tiếng Hàn trực tuyến toàn diện từ cấp độ Sơ cấp đến Trung - Cao cấp. Cùng bạn chinh phục tiếng Hàn và kỳ thi TOPIK.'}
@@ -55,8 +57,14 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href={`/${locale}/practice`} className="hover:text-koreanRed dark:hover:text-red-400 transition-colors">
+                  {isEn ? 'Practice' : 'Luyện tập'}
+                </Link>
+              </li>
+              <li>
+               
                 <Link href={`/${locale}/profile`} className="hover:text-koreanRed dark:hover:text-red-400 transition-colors">
-                  {isEn ? 'Profile' : 'Cá nhân'}
+                  {isEn ? 'Profile' : 'Hồ sơ cá nhân'}
                 </Link>
               </li>
             </ul>
@@ -69,18 +77,33 @@ export default function Footer() {
             </h4>
             <ul className="flex flex-col gap-3 text-xs font-semibold">
               <li>
+                {/* OLD:
                 <Link href={`/${locale}/courses`} className="hover:text-koreanRed dark:hover:text-red-400 transition-colors">
                   TOPIK I - {isEn ? 'Elementary 1' : 'Tiếng Hàn Sơ Cấp 1'}
                 </Link>
-              </li>
-              <li>
+                */}
                 <Link href={`/${locale}/courses`} className="hover:text-koreanRed dark:hover:text-red-400 transition-colors">
-                  TOPIK I - {isEn ? 'Elementary 2' : 'Tiếng Hàn Sơ Cấp 2'}
+                  TOPIK I - {isEn ? 'Beginner' : 'Sơ cấp'}
                 </Link>
               </li>
               <li>
+                {/* OLD:
+                <Link href={`/${locale}/courses`} className="hover:text-koreanRed dark:hover:text-red-400 transition-colors">
+                  TOPIK I - {isEn ? 'Elementary 2' : 'Tiếng Hàn Sơ Cấp 2'}
+                </Link>
+                */}
+                <Link href={`/${locale}/courses`} className="hover:text-koreanRed dark:hover:text-red-400 transition-colors">
+                  TOPIK II - {isEn ? 'Intermediate' : 'Trung cấp'}
+                </Link>
+              </li>
+              <li>
+                {/* OLD:
                 <Link href={`/${locale}/courses`} className="hover:text-koreanRed dark:hover:text-red-400 transition-colors">
                   TOPIK II - {isEn ? 'Intermediate 3' : 'Tiếng Hàn Trung Cấp 3'}
+                </Link>
+                */}
+                <Link href={`/${locale}/courses`} className="hover:text-koreanRed dark:hover:text-red-400 transition-colors">
+                  TOPIK II - {isEn ? 'Advanced' : 'Cao cấp'}
                 </Link>
               </li>
             </ul>
@@ -97,11 +120,17 @@ export default function Footer() {
                 <span>support@hanquochoc.com</span>
               </li>
               <li className="flex items-center gap-2">
+                {/* OLD:
                 <Flame size={14} className="text-koreanRed" />
+                */}
+                <Phone size={14} className="text-koreanRed" />
                 <span>1900 1234 56</span>
               </li>
               <li className="flex items-center gap-2">
+                {/* OLD:
                 <Compass size={14} className="text-koreanRed" />
+                */}
+                <MapPin size={14} className="text-koreanRed" />
                 <span>{isEn ? 'Ho Chi Minh City, Vietnam' : 'TP. Hồ Chí Minh, Việt Nam'}</span>
               </li>
             </ul>
@@ -123,6 +152,14 @@ export default function Footer() {
               {isEn ? 'Privacy Policy' : 'Chính sách bảo mật'}
             </Link>
             <Link href={`/${locale}`} className="hover:text-koreanRed transition-colors">
+              {isEn ? 'Terms of Use' : 'Điều khoản sử dụng'}
+            </Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}>
               {isEn ? 'Terms of Use' : 'Điều khoản sử dụng'}
             </Link>
           </div>
