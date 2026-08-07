@@ -160,8 +160,18 @@ export default function FloatingActionHub({ locale = 'vn' }: FloatingActionHubPr
             rel="noopener noreferrer"
             className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800/80 shadow-lg text-[#0068ff] transition-all duration-300 hover-wiggle active:scale-95 group-hover:shadow-[#0068ff]/25 group-hover:shadow-md"
           >
-            <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
-              <path d="M12 2C6.477 2 2 6.03 2 11c0 2.278 1.054 4.364 2.808 5.922-.164.577-.663 2.188-.707 2.336-.086.291.077.295.163.238.687-.457 2.355-1.564 3.013-1.956C8.283 17.828 10.07 18 12 18c5.523 0 10-4.03 10-9s-4.477-7-10-7zm0 13c-4.418 0-8-3.134-8-7s3.582-7 8-7 8 3.134 8 7-3.582 7-8 7z" />
+            {/* OLD: <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current"> */}
+            {/* OLD:   <path d="M12 2C6.477 2 2 6.03 2 11c0 2.278 1.054 4.364 2.808 5.922-.164.577-.663 2.188-.707 2.336-.086.291.077.295.163.238.687-.457 2.355-1.564 3.013-1.956C8.283 17.828 10.07 18 12 18c5.523 0 10-4.03 10-9s-4.477-7-10-7zm0 13c-4.418 0-8-3.134-8-7s3.582-7 8-7 8 3.134 8 7-3.582 7-8 7z" /> */}
+            {/* OLD: </svg> */}
+            <svg viewBox="0 0 24 24" className="w-6 h-6">
+              <path
+                d="M12 2C6.48 2 2 6.02 2 11c0 2.28 1.05 4.38 2.81 5.92-.16.58-.66 2.19-.7 2.34-.09.3.08.3.16.24.69-.46 2.36-1.57 3.02-1.96.65.17 1.34.26 2.03.26 5.52 0 10-4.02 10-9S17.52 2 12 2z"
+                fill="currentColor"
+              />
+              <path
+                d="M14.5 13.5H9.5v-1.1l3.1-3.6H9.7v-1.1h4.6v1.1l-3.1 3.6h3.3v1.1z"
+                fill="white"
+              />
             </svg>
           </a>
           <span className="absolute right-14 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-stone-900 text-white dark:bg-white dark:text-stone-900 text-xs font-bold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 transition-all duration-300 shadow-md">
