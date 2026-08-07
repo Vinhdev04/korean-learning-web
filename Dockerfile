@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # Stage 1: Install dependencies
 FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat
@@ -8,7 +9,7 @@ RUN npm install -g bun
 
 # Sao chép file package và lock
 COPY package.json bun.lock* ./
-RUN bun install --frozen-lockfile
+RUN --mount=type=cache,target=/root/.bun/install/cache bun install --frozen-lockfile
 
 # Stage 2: Build the application
 FROM node:20-alpine AS builder
@@ -18,7 +19,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN bun run build
+RUN --mount=type=cache,target=/app/.next/cache bun run build
 
 # Stage 3: Runner
 FROM node:20-alpine AS runner
