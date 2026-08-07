@@ -1,12 +1,5 @@
 'use client';
 
-/*
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="relative p-6 bg-white z-1 dark:bg-gray-900 sm:p-0">
-...
-*/
-
 import React from 'react';
 import { ThemeProvider } from '@/core/context/ThemeContext';
 import { NextIntlClientProvider } from 'next-intl';
@@ -15,13 +8,13 @@ import HeaderClient from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
 /**
- * Layout cho trang Đăng nhập, bọc HeaderClient ở trên và Footer ở dưới,
- * căn giữa nội dung form ở trung tâm màn hình (giống hình 2).
+ * Layout cho trang Đăng ký, bọc HeaderClient ở trên và Footer ở dưới,
+ * căn giữa nội dung form ở trung tâm màn hình (giống hình 3).
  *
  * @param props - Các thuộc tính của layout
  * @returns React Layout hoàn chỉnh
  */
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function RegisterLayout({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <NextIntlClientProvider
@@ -34,7 +27,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           {/* Header hiển thị cố định ở phía trên */}
           <HeaderClient />
 
-          {/* Căn giữa form đăng nhập ở giữa màn hình */}
+          {/* Căn giữa form đăng ký ở giữa màn hình */}
           <main className="flex-grow pt-28 pb-16 flex items-center justify-center px-4 sm:px-6 lg:px-8">
             {children}
           </main>

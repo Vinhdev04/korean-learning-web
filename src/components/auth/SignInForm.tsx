@@ -79,77 +79,81 @@ export default function SignInForm() {
   };
 
   return (
-    <div className="flex flex-col flex-1 lg:w-1/2 w-full bg-white font-outfit justify-center px-6 sm:px-12 lg:px-16 py-12">
-      <div className="w-full max-w-md mx-auto space-y-8">
-        {/* Sign In Header */}
-        <div className="space-y-2 text-center lg:text-left">
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-950">
-            Chào mừng quay lại
+    <div className="w-full max-w-md bg-white dark:bg-stone-900 p-8 sm:p-10 rounded-3xl shadow-xl border border-stone-150/40 dark:border-stone-800/80 transition-colors duration-300 font-sans">
+      <div className="space-y-6">
+        {/* Header Đăng nhập */}
+        <div className="space-y-2 text-center">
+          <h1 className="text-3xl font-extrabold tracking-tight text-charcoal dark:text-stone-100">
+            Đăng nhập
           </h1>
-          <p className="text-sm text-slate-600">
-            Đăng nhập hệ thống tự học tiếng Hàn trực tuyến toàn diện
+          <p className="text-sm text-charcoal-muted dark:text-stone-400 font-medium leading-relaxed">
+            Chào mừng quay lại! Tiếp tục hành trình học tiếng Hàn của bạn.
           </p>
         </div>
 
-        {/* Form elements */}
-        <form className="space-y-6" onSubmit={e => e.preventDefault()}>
+        {/* Các trường nhập liệu */}
+        <form className="space-y-5" onSubmit={e => e.preventDefault()}>
           <div className="space-y-1.5">
-            <Label className="text-sm font-bold text-slate-700">
-              Tên đăng nhập <span className="text-teal-600">*</span>
+            <Label className="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
+              Email / Tên đăng nhập <span className="text-koreanRed">*</span>
             </Label>
             <Input
               id="username"
               name="username"
-              placeholder="Tên đăng nhập (ví dụ: admin)"
+              placeholder="Nhập email của bạn (ví dụ: admin)"
               type="text"
-              className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none transition-all"
+              value={formData.username}
+              className="w-full rounded-xl border border-stone-200 dark:border-stone-850 bg-stone-50/50 dark:bg-stone-950 p-3.5 text-sm focus:border-koreanRed dark:focus:border-red-500 focus:ring-1 focus:ring-koreanRed dark:focus:ring-red-500 outline-none transition-all dark:text-white"
               onChange={handleInputChange}
             />
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-sm font-bold text-slate-700">
-              Mật khẩu <span className="text-teal-600">*</span>
+            <Label className="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
+              Mật khẩu <span className="text-koreanRed">*</span>
             </Label>
             <div className="relative">
               <Input
                 id="password"
                 name="password"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Mật khẩu (ví dụ: admin123)"
-                className="w-full rounded-xl border border-slate-200 p-3 pr-10 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none transition-all"
+                placeholder="Nhập mật khẩu"
+                value={formData.password}
+                className="w-full rounded-xl border border-stone-200 dark:border-stone-850 bg-stone-50/50 dark:bg-stone-950 p-3.5 pr-10 text-sm focus:border-koreanRed dark:focus:border-red-500 focus:ring-1 focus:ring-koreanRed dark:focus:ring-red-500 outline-none transition-all dark:text-white"
                 onChange={handleInputChange}
               />
-              <span
+              <button
+                type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2 text-slate-400 hover:text-teal-600"
+                className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2 text-stone-400 hover:text-koreanRed dark:hover:text-red-400 p-1"
+                aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
               >
                 {showPassword ? (
-                  <EyeIcon className="fill-current h-5 w-5" />
+                  <EyeIcon className="fill-current h-4 w-4" />
                 ) : (
-                  <EyeCloseIcon className="fill-current h-5 w-5" />
+                  <EyeCloseIcon className="fill-current h-4 w-4" />
                 )}
-              </span>
+              </button>
             </div>
           </div>
 
-          {/* Quick links */}
-          <div className="flex items-center justify-between text-xs sm:text-sm">
+          {/* Quên mật khẩu link */}
+          <div className="flex items-center justify-between text-xs sm:text-sm pt-1">
             <div />
             <Link
               href="/reset-password"
-              className="font-semibold text-teal-600 hover:text-teal-700 transition-colors"
+              className="font-bold text-koreanRed dark:text-red-400 hover:underline transition-colors"
             >
               Quên mật khẩu?
             </Link>
           </div>
 
-          {/* Submit Action */}
+          {/* Nút đăng nhập */}
           <div className="pt-2">
             <button
               onClick={handleSubmit}
               disabled={!formData.username || !formData.password || loadingBtn}
-              className={`w-full rounded-xl bg-slate-950 py-3.5 text-sm font-bold text-white shadow-lg shadow-slate-950/10 hover:bg-teal-600 hover:shadow-teal-600/10 transition-all duration-300 active:scale-98 ${
+              className={`w-full rounded-xl bg-koreanRed hover:bg-koreanRed-dark text-white py-3.5 text-sm font-bold shadow-lg shadow-koreanRed/15 transition-all duration-300 active:scale-[0.98] ${
                 !formData.username || !formData.password || loadingBtn
                   ? 'opacity-50 cursor-not-allowed'
                   : ''
@@ -160,32 +164,47 @@ export default function SignInForm() {
           </div>
         </form>
 
-        {/* 💡 Testing Accounts Panel for UX review */}
-        <div className="mt-8 p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-            <HelpCircle size={14} className="text-teal-500" />
-            Tài khoản giả lập kiểm thử nhanh UI
+        {/* Chuyển hướng sang đăng ký */}
+        <div className="text-center text-xs sm:text-sm text-stone-500 dark:text-stone-400 pt-2 font-medium">
+          <span>Chưa có tài khoản? </span>
+          <Link
+            href="/register"
+            className="font-bold text-koreanRed dark:text-red-400 hover:underline"
+          >
+            Đăng ký ngay
+          </Link>
+        </div>
+
+        {/* 💡 Tài khoản test giả lập */}
+        <div className="pt-4 border-t border-stone-100 dark:border-stone-850 space-y-2">
+          <h3 className="text-[10px] font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500 flex items-center gap-1.5 justify-center">
+            <HelpCircle size={12} className="text-koreanRed/70" />
+            Tài khoản kiểm thử nhanh UI
           </h3>
-          <div className="grid gap-2 sm:grid-cols-2 text-xs">
+          <div className="grid gap-2 grid-cols-2 text-[10px]">
             <button
               onClick={() => setFormData({ username: 'admin', password: 'admin123' })}
-              className="flex items-center gap-2 p-2 bg-white border border-slate-100 rounded-xl hover:border-teal-500 transition-colors text-left"
+              className="flex items-center gap-2 p-2 bg-stone-50 hover:bg-stone-100 dark:bg-stone-950 dark:hover:bg-stone-850 border border-stone-150/40 dark:border-stone-800 rounded-xl transition-colors text-left"
             >
-              <ShieldCheck size={16} className="text-teal-600" />
-              <div>
-                <span className="font-bold text-slate-800 block">Tài khoản Admin</span>
-                <span className="text-[10px] text-slate-500">Username: admin</span>
+              <ShieldCheck size={14} className="text-koreanRed flex-shrink-0" />
+              <div className="truncate">
+                <span className="font-bold text-stone-700 dark:text-stone-300 block leading-tight">
+                  Admin CMS
+                </span>
+                <span className="text-[9px] text-stone-400">User: admin</span>
               </div>
             </button>
 
             <button
               onClick={() => setFormData({ username: 'user', password: 'user123' })}
-              className="flex items-center gap-2 p-2 bg-white border border-slate-100 rounded-xl hover:border-teal-500 transition-colors text-left"
+              className="flex items-center gap-2 p-2 bg-stone-50 hover:bg-stone-100 dark:bg-stone-950 dark:hover:bg-stone-850 border border-stone-150/40 dark:border-stone-800 rounded-xl transition-colors text-left"
             >
-              <UserCheck size={16} className="text-teal-600" />
-              <div>
-                <span className="font-bold text-slate-800 block">Tài khoản Học viên</span>
-                <span className="text-[10px] text-slate-500">Username: user</span>
+              <UserCheck size={14} className="text-koreanRed flex-shrink-0" />
+              <div className="truncate">
+                <span className="font-bold text-stone-700 dark:text-stone-300 block leading-tight">
+                  Học viên
+                </span>
+                <span className="text-[9px] text-stone-400">User: user</span>
               </div>
             </button>
           </div>

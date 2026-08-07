@@ -8,9 +8,10 @@ export default function CoursesPage() {
 ...
 */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { BookOpen, Clock, Layers, Filter, CheckCircle2 } from 'lucide-react';
+import Skeleton from '@/components/common/Skeleton';
 
 // Dữ liệu giả lập các khóa học tiếng Hàn theo chuẩn TOPIK của BA
 const COURSES_DATA = [
@@ -68,10 +69,50 @@ const COURSES_DATA = [
 
 export default function CoursesPage() {
   const [filter, setFilter] = useState<'all' | 'so-cap' | 'trung-cap' | 'cao-cap'>('all');
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Giả lập hiệu ứng loading Skeleton khi người dùng chuyển đổi bộ lọc cấp độ hoặc load trang lần đầu
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500); // 500ms delay để tạo cảm giác shimmer mượt mà
+    return () => clearTimeout(timer);
+  }, [filter]);
 
   // Lọc khóa học theo tab đang chọn
   const filteredCourses =
     filter === 'all' ? COURSES_DATA : COURSES_DATA.filter(course => course.levelKey === filter);
+
+  // Component render placeholder Skeleton cho card khóa học tiếng Hàn
+  const CourseCardSkeleton = () => (
+    <div className="flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 shadow-sm">
+      <div>
+        {/* Cấp độ Badge Skeleton */}
+        <Skeleton variant="text" className="w-24 h-6 rounded-xl" />
+
+        {/* Title Skeleton */}
+        <Skeleton variant="text" className="w-3/4 h-7 mt-5 rounded-md" />
+
+        {/* Description Skeleton */}
+        <div className="space-y-2.5 mt-4">
+          <Skeleton variant="text" className="w-full h-4 rounded-md" />
+          <Skeleton variant="text" className="w-5/6 h-4 rounded-md" />
+        </div>
+
+        {/* Meta information Skeleton */}
+        <div className="mt-8 flex items-center gap-6 border-t border-slate-100 dark:border-stone-850 pt-4">
+          <Skeleton variant="text" className="w-20 h-4 rounded-md" />
+          <Skeleton variant="text" className="w-24 h-4 rounded-md" />
+        </div>
+      </div>
+
+      {/* Action CTA Button Skeleton */}
+      <div className="mt-8">
+        <Skeleton variant="rect" className="w-full h-11 rounded-xl" />
+      </div>
+    </div>
+  );
 
   // OLD: return ( ... )
   return (
@@ -117,53 +158,56 @@ export default function CoursesPage() {
 
       {/* Grid Danh sách khóa học */}
       <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredCourses.map(course => (
-          <div
-            key={course.id}
-            className="flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 shadow-sm hover:shadow-md hover:border-teal-500/20 dark:hover:border-teal-500/30 transition-all duration-300 group"
-          >
-            <div>
-              {/* Cấp độ Badge */}
-              <div className="flex justify-between items-center">
-                <span
-                  className={`inline-flex items-center rounded-xl px-3 py-1 text-xs font-bold ${course.tagColor}`}
-                >
-                  {course.level}
-                </span>
-              </div>
-
-              {/* Title & Description */}
-              <h3 className="mt-4 text-xl font-bold text-slate-950 dark:text-stone-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
-                {course.title}
-              </h3>
-              <p className="mt-2 text-sm text-slate-600 dark:text-stone-400 leading-relaxed min-h-[72px]">
-                {course.desc}
-              </p>
-
-              {/* Meta information */}
-              <div className="mt-6 flex items-center gap-6 border-t border-slate-100 dark:border-stone-850 pt-4 text-xs text-slate-500 dark:text-stone-400 font-semibold">
-                <div className="flex items-center gap-1.5">
-                  <Layers size={14} className="text-teal-500" />
-                  <span>{course.lessons} bài học</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Clock size={14} className="text-teal-500" />
-                  <span>{course.duration} phút video</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Action CTA */}
-            <div className="mt-8">
-              <Link
-                href={`/vn/courses/${course.id}`}
-                className="block w-full text-center rounded-xl bg-slate-950 dark:bg-stone-800 hover:bg-teal-600 dark:hover:bg-teal-600 py-3 text-sm font-bold text-white shadow-sm transition-all duration-300 active:scale-98"
+        {isLoading
+          ? // Hiển thị 6 card Skeleton lấp lánh khi đang trong trạng thái loading
+            Array.from({ length: 6 }).map((_, index) => <CourseCardSkeleton key={index} />)
+          : filteredCourses.map(course => (
+              <div
+                key={course.id}
+                className="flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 shadow-sm hover:shadow-md hover:border-teal-500/20 dark:hover:border-teal-500/30 transition-all duration-300 group"
               >
-                Xem chi tiết
-              </Link>
-            </div>
-          </div>
-        ))}
+                <div>
+                  {/* Cấp độ Badge */}
+                  <div className="flex justify-between items-center">
+                    <span
+                      className={`inline-flex items-center rounded-xl px-3 py-1 text-xs font-bold ${course.tagColor}`}
+                    >
+                      {course.level}
+                    </span>
+                  </div>
+
+                  {/* Title & Description */}
+                  <h3 className="mt-4 text-xl font-bold text-slate-950 dark:text-stone-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                    {course.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-stone-400 leading-relaxed min-h-[72px]">
+                    {course.desc}
+                  </p>
+
+                  {/* Meta information */}
+                  <div className="mt-6 flex items-center gap-6 border-t border-slate-100 dark:border-stone-850 pt-4 text-xs text-slate-500 dark:text-stone-400 font-semibold">
+                    <div className="flex items-center gap-1.5">
+                      <Layers size={14} className="text-teal-500" />
+                      <span>{course.lessons} bài học</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Clock size={14} className="text-teal-500" />
+                      <span>{course.duration} phút video</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action CTA */}
+                <div className="mt-8">
+                  <Link
+                    href={`/vn/courses/${course.id}`}
+                    className="block w-full text-center rounded-xl bg-slate-950 dark:bg-stone-800 hover:bg-teal-600 dark:hover:bg-teal-600 py-3 text-sm font-bold text-white shadow-sm transition-all duration-300 active:scale-98"
+                  >
+                    Xem chi tiết
+                  </Link>
+                </div>
+              </div>
+            ))}
       </div>
     </div>
   );

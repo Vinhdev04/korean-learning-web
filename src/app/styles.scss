@@ -261,7 +261,7 @@
   }
 }
 
-/* Vùng phủ hoàng hôn Seoul (Seoul Sunset Overlay) */
+/* OLD:
 .hero-seoul-sunset {
   position: relative;
   background-size: cover;
@@ -280,6 +280,39 @@
       180deg, 
       rgba(26, 24, 23, 0.6) 0%, 
       rgba(26, 24, 23, 0.8) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+}
+*/
+
+/* Vùng phủ hoàng hôn Seoul (Seoul Sunset Overlay) với gam màu cam ấm rực rỡ và ảnh thành phố Seoul */
+.hero-seoul-sunset {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Thay ảnh bàn phím gaming bằng ảnh thành phố Seoul hoàng hôn */
+  background-image: url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1920&q=80');
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Lớp phủ gradient màu cam đỏ hoàng hôn ấm áp hòa với tông tối ở đáy */
+    background: linear-gradient(
+      180deg, 
+      rgba(225, 25, 42, 0.15) 0%, 
+      rgba(249, 115, 22, 0.25) 50%, 
+      rgba(15, 15, 15, 0.8) 100%
     );
     z-index: 1;
   }
@@ -309,6 +342,103 @@
   }
   100% {
     box-shadow: 0 0 0 0 rgba(225, 25, 42, 0);
+  }
+}
+
+/* Tùy biến giao diện React-Toastify - Phong cách Modern Glassmorphism cao cấp */
+.Toastify__toast-container {
+  z-index: 99999 !important;
+}
+
+.Toastify__toast {
+  border-radius: 16px !important;
+  font-family: var(--font-sans), sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  padding: 16px 20px !important;
+  min-height: 60px !important;
+}
+
+/* Đăng nhập/Đăng ký thành công (Success) */
+.Toastify__toast--success {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  color: #065f46 !important; /* emerald-800 */
+  border-color: rgba(16, 185, 129, 0.25) !important;
+  
+  .Toastify__toast-icon {
+    svg {
+      fill: #10b981 !important; /* emerald-500 */
+    }
+  }
+}
+
+/* Đăng nhập/Đăng ký thất bại hoặc lỗi (Error) */
+.Toastify__toast--error {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  color: #991b1b !important; /* red-800 */
+  border-color: rgba(225, 25, 42, 0.25) !important;
+  
+  .Toastify__toast-icon {
+    svg {
+      fill: #e1192a !important; /* koreanRed */
+    }
+  }
+}
+
+/* Hỗ trợ chế độ tối (Dark Mode) */
+.dark {
+  .Toastify__toast {
+    border-color: rgba(255, 255, 255, 0.05) !important;
+  }
+  
+  .Toastify__toast--success {
+    background-color: rgba(28, 25, 23, 0.95) !important; /* stone-900 */
+    color: #a7f3d0 !important; /* emerald-200 */
+    
+    .Toastify__toast-icon {
+      svg {
+        fill: #34d399 !important;
+      }
+    }
+  }
+  
+  .Toastify__toast--error {
+    background-color: rgba(28, 25, 23, 0.95) !important;
+    color: #fca5a5 !important; /* red-300 */
+    
+    .Toastify__toast-icon {
+      svg {
+        fill: #f87171 !important;
+      }
+    }
+  }
+}
+
+/* Thanh thời gian chạy (Progress Bar) mảnh và đẹp mắt */
+.Toastify__progress-bar {
+  height: 3px !important;
+}
+
+.Toastify__progress-bar--success {
+  background: linear-gradient(to right, #34d399, #10b981) !important;
+}
+
+.Toastify__progress-bar--error {
+  background: linear-gradient(to right, #f87171, #e1192a) !important;
+}
+
+/* Nút X đóng thông báo */
+.Toastify__close-button {
+  color: #a8a29e !important; /* stone-400 */
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  
+  &:hover {
+    color: #78716c !important; /* stone-500 */
+    opacity: 1;
   }
 }
 

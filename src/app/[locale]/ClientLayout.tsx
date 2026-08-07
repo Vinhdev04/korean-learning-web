@@ -23,6 +23,15 @@ import { LanguageProvider } from '@/core/context/LanguageContext';
 const supportedLocales = ['vn', 'en'] as const;
 type Locale = (typeof supportedLocales)[number];
 
+// OLD: function detectLocale(pathname: string): Locale {
+// OLD:   const pathLocale = pathname.split('/')[1];
+// OLD:   return supportedLocales.includes(pathLocale as Locale) ? (pathLocale as Locale) : 'vn';
+// OLD: }
+/**
+ * Phát hiện ngôn ngữ (locale) dựa trên đường dẫn pathname hiện tại.
+ * @param pathname - Đường dẫn URL hiện tại
+ * @returns Ngôn ngữ được phát hiện ('vn' hoặc 'en')
+ */
 function detectLocale(pathname: string): Locale {
   const pathLocale = pathname.split('/')[1];
   return supportedLocales.includes(pathLocale as Locale) ? (pathLocale as Locale) : 'vn';
@@ -35,10 +44,19 @@ const messagesMap: Record<Locale, typeof vi> = {
 
 import FloatingActionHub from '@/components/layout/FloatingActionHub';
 
+/**
+ * Component Layout phía Client quản lý ngôn ngữ, cấu hình intl và các hành vi tương tác client-side.
+ * @param props - Thuộc tính component
+ * @param props.children - Các component con được render bên trong layout
+ * @returns Component layout hoàn chỉnh
+ */
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() || '/';
   const locale = detectLocale(pathname);
   const messages = messagesMap[locale];
+
+  // Kiểm tra xem trang hiện tại có phải là trang chủ (home page) hay không
+  const isHomePage = pathname === '/' || pathname === `/${locale}` || pathname === `/${locale}/`;
 
   useEffect(() => {
     document.documentElement.lang = locale;

@@ -1,49 +1,43 @@
 'use client';
 
-import GridShape from '@/components/common/GridShape';
-import ThemeTogglerTwo from '@/components/common/ThemeTogglerTwo';
+import React from 'react';
 import { ThemeProvider } from '@/core/context/ThemeContext';
 import { NextIntlClientProvider } from 'next-intl';
 import i18n_vi from '@/i18n/admin/vi.json';
+import HeaderClient from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 
-import Link from 'next/link';
-import React from 'react';
-
+/**
+ * Layout cho trang Quên mật khẩu, bọc HeaderClient ở trên và Footer ở dưới,
+ * căn giữa nội dung form ở trung tâm màn hình.
+ *
+ * @param props - Các thuộc tính của layout
+ * @returns React Layout hoàn chỉnh
+ */
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative p-6 bg-white z-1 dark:bg-gray-900 sm:p-0">
-      <ThemeProvider>
-        <NextIntlClientProvider
-          locale="vi"
-          messages={i18n_vi}
-          timeZone="Asia/Ho_Chi_Minh"
-          getMessageFallback={({ key }) => `${key}`}
-        >
-          <div className="relative flex lg:flex-row w-full h-screen justify-center flex-col dark:bg-gray-900 sm:p-0">
-            <div className="lg:w-1/2 w-full h-full bg-brand-950 dark:bg-white/5 lg:grid items-center hidden">
-              <div className="relative items-center justify-center flex z-1">
-                <GridShape />
-                <div className="flex flex-col items-center max-w-xs">
-                  <Link href="https://chips.vn" className="block mb-4">
-                    <img src="/images/logo/chips-logo.png" alt="CMS Chips Logo" className="mx-auto w-60 mb-18"/>
-                    <p className="text-center text-gray-400 dark:text-white/60">
-                      Công ty cổ phẩn Chips
-                    </p>
-                    <h1 className="text-4xl font-bold  text-center text-gray-400 dark:text-white/60">CMS CHIPS</h1>
-                    <small className="text-center text-gray-400 dark:text-white/60">
-                      © 2009 - 2025 Chips. All rights reserved.
-                    </small>
-                  </Link>
-                </div>
-              </div>
-            </div>
+    <ThemeProvider>
+      <NextIntlClientProvider
+        locale="vi"
+        messages={i18n_vi}
+        timeZone="Asia/Ho_Chi_Minh"
+        getMessageFallback={({ key }) => `${key}`}
+      >
+        <div className="font-sans bg-[#faf8f5] dark:bg-stone-950 text-charcoal dark:text-stone-150 min-h-screen flex flex-col transition-colors duration-300">
+          {/* Header hiển thị cố định ở phía trên */}
+          <HeaderClient />
+
+          {/* Căn giữa form khôi phục mật khẩu ở giữa màn hình */}
+          <main className="flex-grow pt-28 pb-16 flex items-center justify-center px-4 sm:px-6 lg:px-8">
             {children}
-            <div className="fixed bottom-6 right-6 z-50 hidden sm:block">
-              <ThemeTogglerTwo />
-            </div>
+          </main>
+
+          {/* Footer hiển thị ở dưới cùng */}
+          <div className="relative w-full overflow-hidden bg-warmCream dark:bg-stone-950 pb-2 border-t border-stone-200/50 dark:border-stone-850/80">
+            <Footer />
           </div>
-        </NextIntlClientProvider>
-      </ThemeProvider>
-    </div>
+        </div>
+      </NextIntlClientProvider>
+    </ThemeProvider>
   );
 }

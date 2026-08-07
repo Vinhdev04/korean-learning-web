@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X, Moon, Sun, Search, Bell } from 'lucide-react';
 import { useTheme } from '@/core/context/ThemeContext';
+import SearchModal from './SearchModal';
 
 /**
  * Component Header cho dự án Học Tiếng Hàn trực tuyến.
@@ -14,11 +15,31 @@ import { useTheme } from '@/core/context/ThemeContext';
 export default function HeaderClient() {
   const pathname = usePathname() || '/';
   const router = useRouter();
-  const locale = pathname.split('/')[1] || 'vn';
+
+  // OLD: const locale = pathname.split('/')[1] || 'vn';
+  // Chuẩn hóa phát hiện locale: chỉ nhận 'vn' hoặc 'en', tránh nhận nhầm các route như /login, /register làm locale
+  const supportedLocales = ['vn', 'en'] as const;
+  const pathLocale = pathname.split('/')[1];
+  const locale = supportedLocales.includes(pathLocale as any) ? pathLocale : 'vn';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Đồng bộ hóa Theme từ Context toàn cục
   const { theme, toggleTheme } = useTheme();
+
+  // Trạng thái đóng/mở hộp tìm kiếm (Command Palette)
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // Lắng nghe tổ hợp phím tắt Ctrl+K hoặc Cmd+K để mở tìm kiếm nhanh
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Lắng nghe sự kiện scroll để tạo hiệu ứng trong suốt trên trang chủ
   const [isScrolled, setIsScrolled] = useState(false);
@@ -68,7 +89,7 @@ export default function HeaderClient() {
     document.cookie = 'user_id=; path=/; max-age=0';
     document.cookie = 'token=; path=/; max-age=0';
     setIsLoggedIn(false);
-    router.push(`/${locale}/login`);
+    router.push('/login');
   };
 
   // Xác định xem trang hiện tại có phải trang chủ không
@@ -147,6 +168,7 @@ export default function HeaderClient() {
         <div className="flex items-center gap-3 sm:gap-4 font-sans">
           {/* Nút Tìm kiếm */}
           <button
+            onClick={() => setIsSearchOpen(true)}
             className={`p-2.5 rounded-xl transition-colors hover:bg-stone-50 dark:hover:bg-stone-850 text-charcoal-muted dark:text-stone-300 ${
               isHomePage && !isScrolled ? 'hover:bg-white/10 text-white/90' : ''
             }`}
@@ -210,7 +232,7 @@ export default function HeaderClient() {
             ) : (
               <>
                 <Link
-                  href={`/${locale}/login`}
+                  href="/login"
                   className={`px-4 py-2.5 text-sm font-bold transition-all active:scale-95 ${
                     isHomePage && !isScrolled
                       ? 'text-white/90 hover:text-white hover:underline'
@@ -220,7 +242,7 @@ export default function HeaderClient() {
                   Đăng nhập
                 </Link>
                 <Link
-                  href={`/${locale}/register`}
+                  href="/register"
                   className="bg-koreanRed hover:bg-koreanRed-dark text-white text-sm font-bold py-2.5 px-5 rounded-xl transition-all active:scale-95 shadow-md shadow-koreanRed/10 block"
                 >
                   Đăng ký miễn phí
@@ -304,14 +326,14 @@ export default function HeaderClient() {
             ) : (
               <>
                 <Link
-                  href={`/${locale}/login`}
+                  href="/login"
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full py-3 text-sm font-bold text-charcoal dark:text-stone-200 border border-stone-200 dark:border-stone-800 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-850 transition-colors text-center"
                 >
                   Đăng nhập
                 </Link>
                 <Link
-                  href={`/${locale}/register`}
+                  href="/register"
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full py-3 text-sm font-bold text-center bg-koreanRed hover:bg-koreanRed-dark text-white rounded-xl block"
                 >
@@ -322,6 +344,8 @@ export default function HeaderClient() {
           </div>
         </div>
       )}
+      {/* Hộp tìm kiếm Command Palette */}
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </header>
   );
 }

@@ -12,18 +12,22 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/admin') ||
     pathname.startsWith('/favicon.ico') ||
     pathname.startsWith('/login') ||
+    pathname.startsWith('/register') ||
     pathname.startsWith('/reset-password') ||
     PUBLIC_FILE.test(pathname)
   ) {
     return NextResponse.next();
   }
   try {
-    const res = await fetch(`${process.env.INTERNAL_API_BASE_URL}check-redirect-link?link=${pathname}`, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const res = await fetch(
+      `${process.env.INTERNAL_API_BASE_URL}check-redirect-link?link=${pathname}`,
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
     if (res.ok) {
       const data = await res.json();
-      const dataRedirect= data?.data
+      const dataRedirect = data?.data;
       if (dataRedirect?.link_redirect) {
         return NextResponse.redirect(
           new URL(dataRedirect?.link_redirect, request.url),
@@ -50,13 +54,13 @@ export async function middleware(request: NextRequest) {
   }
 
   if (pathname === '/en' || pathname.startsWith('/en/')) {
-      const response = NextResponse.next();
-      response.cookies.set('lang', 'en', {
-        path: '/',
-        maxAge: 60 * 60 * 24 * 30, // 30 ngày
-      });
-      return response;
-    }
+    const response = NextResponse.next();
+    response.cookies.set('lang', 'en', {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 30, // 30 ngày
+    });
+    return response;
+  }
   // ✅ Nếu không có locale → rewrite về đường dẫn có DEFAULT_LOCALE
   const hasLocale = locales.some(
     locale => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)

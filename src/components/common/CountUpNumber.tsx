@@ -29,21 +29,71 @@ export default function CountUpNumber({
   suffix = '',
   className = '',
 }: CountUpNumberProps) {
-  const [count, setCount] = useState(0);
-  const elementRef = useRef<HTMLSpanElement>(null);
-  const hasAnimated = useRef(false);
+  // OLD: const [count, setCount] = useState(0);
+  // OLD: const elementRef = useRef<HTMLSpanElement>(null);
+  // OLD: const hasAnimated = useRef(false);
+  // OLD:
+  // OLD: useEffect(() => {
+  // OLD:   const observer = new IntersectionObserver(
+  // OLD:     entries => {
+  // OLD:       const [entry] = entries;
+  // OLD:       if (entry.isIntersecting && !hasAnimated.current) {
+  // OLD:         hasAnimated.current = true;
+  // OLD:         startCountAnimation();
+  // OLD:         observer.unobserve(entry.target);
+  // OLD:       }
+  // OLD:     },
+  // OLD:     { threshold: 0.1 } // Kích hoạt khi ít nhất 10% phần tử xuất hiện trong viewport
+  // OLD:   );
+  // OLD:
+  // OLD:   const currentElement = elementRef.current;
+  // OLD:   if (currentElement) {
+  // OLD:     observer.observe(currentElement);
+  // OLD:   }
+  // OLD:
+  // OLD:   return () => {
+  // OLD:     if (currentElement) {
+  // OLD:       observer.unobserve(currentElement);
+  // OLD:     }
+  // OLD:   };
+  // OLD: }, [value, duration]);
+  // OLD:
+  // OLD: const startCountAnimation = () => {
+  // OLD:   let startTimestamp: number | null = null;
+  // OLD:
+  // OLD:   const step = (timestamp: number) => {
+  // OLD:     if (!startTimestamp) startTimestamp = timestamp;
+  // OLD:     const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+  // OLD:     const easeProgress = progress * (2 - progress);
+  // OLD:     const currentVal = Math.floor(easeProgress * value);
+  // OLD:     setCount(currentVal);
+  // OLD:     if (progress < 1) {
+  // OLD:       window.requestAnimationFrame(step);
+  // OLD:     } else {
+  // OLD:       setCount(value);
+  // OLD:     }
+  // OLD:   };
+  // OLD:   window.requestAnimationFrame(step);
+  // OLD: };
 
+  const [count, setCount] = useState(0);
+  // Cờ trạng thái kiểm soát bắt đầu chạy hiệu ứng số khi cuộn tới
+  const [start, setStart] = useState(false);
+  const elementRef = useRef<HTMLSpanElement>(null);
+
+  // Đăng ký IntersectionObserver để phát hiện khi khối thông số hiển thị trên viewport
   useEffect(() => {
+    if (start) return;
+
     const observer = new IntersectionObserver(
       entries => {
         const [entry] = entries;
-        if (entry.isIntersecting && !hasAnimated.current) {
-          hasAnimated.current = true;
-          startCountAnimation();
+        if (entry.isIntersecting) {
+          setStart(true);
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.1 } // Kích hoạt khi ít nhất 10% phần tử xuất hiện trong viewport
+      { threshold: 0.05 } // Ngưỡng 5% giúp phát hiện nhạy hơn trên mọi màn hình
     );
 
     const currentElement = elementRef.current;
@@ -56,33 +106,40 @@ export default function CountUpNumber({
         observer.unobserve(currentElement);
       }
     };
-  }, [value, duration]);
+  }, [start]);
 
-  /**
-   * Thực hiện chạy hiệu ứng đếm số từ 0 lên giá trị đích
-   */
-  const startCountAnimation = () => {
+  // Thực hiện chạy hiệu ứng tăng số từ 0 lên giá trị đích
+  useEffect(() => {
+    if (!start) return;
+
     let startTimestamp: number | null = null;
+    let animationFrameId: number;
 
     const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
 
-      // Sử dụng hàm Easing Out Quad để số chạy chậm dần khi về đích
+      // Easing Out Quad giúp chuyển động số chạy chậm lại khi tiến gần về đích
       const easeProgress = progress * (2 - progress);
       const currentVal = Math.floor(easeProgress * value);
 
       setCount(currentVal);
 
       if (progress < 1) {
-        window.requestAnimationFrame(step);
+        animationFrameId = window.requestAnimationFrame(step);
       } else {
         setCount(value);
       }
     };
 
-    window.requestAnimationFrame(step);
-  };
+    animationFrameId = window.requestAnimationFrame(step);
+
+    return () => {
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [start, value, duration]);
 
   /**
    * Định dạng số theo chuẩn phân tách hàng nghìn tiếng Việt (ví dụ: 8.900, 12.000)
