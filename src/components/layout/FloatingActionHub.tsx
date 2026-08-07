@@ -6,7 +6,9 @@ import {
 } from 'lucide-react';
 
 interface FloatingActionHubProps {
-  
+  locale?: string;
+}
+
 export default function FloatingActionHub({ locale = 'vn' }: FloatingActionHubProps) {
   // Đồng bộ hóa locale: vn -> vi, en -> ko
   const activeLocale = locale === 'en' ? 'ko' : 'vi';
