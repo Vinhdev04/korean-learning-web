@@ -206,6 +206,7 @@
     to {
       transform: translateY(-50%);
     }
+  }
 
   /* ==========================================================================
      KOREAN LEARNING APP RED & CREAM THEME (ADDED FROM WEB CODESPACE)
@@ -1032,11 +1033,10 @@ li {
 }
 */
 
-/* Nền hoàng hôn Seoul chuẩn UI/UX Pro Max với Mesh Gradient hiện đại */
+/* OLD:
 .hero-seoul-sunset {
   position: relative;
   background: #0d0c0c;
-  /* Tổ hợp gradient nhiều lớp: đỏ hoàng hôn, cam ấm seoul, tím đêm và đen sâu thẳm */
   background-image: 
     radial-gradient(circle at 15% 25%, rgba(219, 39, 119, 0.22) 0%, transparent 45%),
     radial-gradient(circle at 85% 15%, rgba(249, 115, 22, 0.18) 0%, transparent 40%),
@@ -1046,7 +1046,6 @@ li {
   overflow: hidden;
 }
 
-/* Lớp phủ họa tiết lưới và đốm sáng mờ ảo */
 .hero-seoul-sunset::before {
   content: '';
   position: absolute;
@@ -1054,19 +1053,16 @@ li {
   left: 0;
   right: 0;
   bottom: 0;
-  /* Tạo họa tiết lưới grid sang trọng */
   background-image: 
     linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: 50px 50px;
   background-position: center top;
-  /* Làm mờ dần lưới ở các cạnh */
   mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
   -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
   z-index: 1;
 }
 
-/* Thêm đốm sáng chuyển động chậm tăng chiều sâu */
 .hero-seoul-sunset::after {
   content: '';
   position: absolute;
@@ -1080,16 +1076,34 @@ li {
   z-index: 1;
   animation: floatSeoulSunsetGlow 15s ease-in-out infinite alternate;
 }
+*/
 
-@keyframes floatSeoulSunsetGlow {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    transform: translate(60px, 40px) scale(1.15);
-  }
+/* Nền hoàng hôn Seoul chuẩn UI cổ kính với ảnh nền Unsplash và overlay gradient cao cấp */
+.hero-seoul-sunset {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1920&q=80');
+  overflow: hidden;
 }
 
+/* Lớp phủ gradient tối dần về hai phía đầu và cuối để tăng độ tương phản */
+.hero-seoul-sunset::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(26, 24, 23, 0.65) 0%,     /* Đậm ở trên để Header trong suốt nổi bật */
+    rgba(26, 24, 23, 0.35) 50%,    /* Mờ nhẹ ở giữa để thấy rõ ánh hoàng hôn */
+    rgba(26, 24, 23, 0.8) 100%     /* Đậm ở dưới để chuyển tiếp sang phần Stats */
+  );
+  z-index: 1;
+}
 
 .hero-seoul-sunset .hero-content {
   position: relative;

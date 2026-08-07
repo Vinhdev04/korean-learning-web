@@ -9,7 +9,8 @@ import { useParams } from 'next/navigation';
 import CountUpNumber from '@/components/common/CountUpNumber';
 import { 
   Flame, BookOpen, ChevronRight, Check, X, ArrowUp, 
-  MessageSquare, Star, Lock, Mail, Compass, ArrowRight, User
+  MessageSquare, Star, Lock, Mail, Compass, ArrowRight, User,
+  Play, Layers, CheckSquare, BarChart2, PenTool, Award
 } from 'lucide-react';
 
 /**
@@ -354,8 +355,13 @@ export default function HomePageClient() {
       {/* 1. Hero Section */}
       <section className="hero-seoul-sunset relative w-full min-h-[580px] flex items-center justify-center text-center px-6 py-20">
         <div className="hero-content max-w-5xl mx-auto flex flex-col items-center animate-fade-in-up">
+          {/* OLD:
           <span className="text-amber-300 dark:text-amber-400 font-bold tracking-[0.2em] text-xs uppercase mb-5 font-mono">
             {t('hero.eyebrow')}
+          </span>
+          */}
+          <span className="text-amber-400/90 font-semibold tracking-wide text-xs md:text-sm uppercase mb-4 font-mono">
+            한국어를 배우는 가장 좋은 방법
           </span>
           <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tighter leading-none mb-3">
             {t('hero.title')}
@@ -371,7 +377,7 @@ export default function HomePageClient() {
           <div className="flex flex-col sm:flex-row gap-4 mb-14 w-full sm:w-auto justify-center">
             <button 
               onClick={() => openAuthModal('REGISTER')}
-              className="btn-primary text-base font-bold py-4 px-10 text-center active:scale-95 shadow-lg shadow-koreanRed/20"
+              className="btn-primary text-base font-bold py-4 px-10 text-center active:scale-95 shadow-lg shadow-koreanRed/20 bg-koreanRed hover:bg-koreanRed-dark text-white rounded-xl"
             >
               {t('hero.startBtn')}
             </button>
@@ -494,44 +500,106 @@ export default function HomePageClient() {
 
         {/* Grid Courses */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCourses.map((course) => (
-            <div key={course.id} className="bg-white dark:bg-stone-900 rounded-2xl overflow-hidden shadow-soft border border-stone-150/40 dark:border-stone-800/80 group hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
-              <div className="relative aspect-[16/9] w-full overflow-hidden bg-stone-100 dark:bg-stone-800">
-                <Image 
-                  src={course.thumbnail} 
-                  alt={course.title}
-                  fill
-                  sizes="(max-w-768px) 100vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <span className="absolute top-4 left-4 bg-koreanRed text-white text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide">
-                  {course.level}
-                </span>
-              </div>
-              <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-lg font-bold text-charcoal dark:text-stone-100 group-hover:text-koreanRed transition-colors">
-                  {course.title}
-                </h3>
-                <p className="text-xs text-charcoal-muted dark:text-stone-400 mt-2 line-clamp-2 leading-relaxed">
-                  {course.description}
-                </p>
-                <div className="mt-6 flex items-center justify-between border-t border-stone-100 dark:border-stone-800 pt-4 text-[11px] font-bold text-charcoal-muted dark:text-stone-400">
-                  <span>{course.weeks} {t('courses.weeks')} · {course.lessons} {t('courses.lessons')}</span>
-                  <span>{course.students} học viên</span>
+          {filteredCourses.map((course) => {
+            // Xác định màu nền pastel cho tag TOPIK dựa trên cấp độ
+            const isTopik2 = course.level.includes('TOPIK II');
+            const tagStyle = isTopik2
+              ? 'bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400'
+              : 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400';
+            
+            // Lấy nhãn rút gọn (TOPIK I / TOPIK II)
+            const cleanTag = course.level.split(' - ')[0];
+
+            // Ánh xạ tên tiếng Hàn tương ứng của khóa học hiển thị nhỏ phía trên tiêu đề chính
+            const subTitleKo = course.id === 'c1' 
+              ? '한국어 초급 1' 
+              : course.id === 'c2' 
+                ? '한국어 초급 2' 
+                : '한국어 중급 3';
+
+            return (
+              <div key={course.id} className="bg-white dark:bg-stone-900 rounded-2xl overflow-hidden shadow-soft border border-stone-150/40 dark:border-stone-800/80 group hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
+                {/* OLD:
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-stone-100 dark:bg-stone-800">
+                  <Image 
+                    src={course.thumbnail} 
+                    alt={course.title}
+                    fill
+                    sizes="(max-w-768px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <span className="absolute top-4 left-4 bg-koreanRed text-white text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide">
+                    {course.level}
+                  </span>
                 </div>
-                <div className="mt-4 pt-1">
-                  <Link 
-                    href={`/vn/courses`}
-                    className="w-full bg-stone-50 dark:bg-stone-950 text-charcoal dark:text-stone-200 border border-stone-200 dark:border-stone-800 py-3 rounded-xl text-xs font-bold text-center block hover:bg-koreanRed hover:text-white hover:border-koreanRed transition-all"
-                  >
-                    {t('courses.details')}
-                  </Link>
+                */}
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-stone-100 dark:bg-stone-800">
+                  <Image 
+                    src={course.thumbnail} 
+                    alt={course.title}
+                    fill
+                    sizes="(max-w-768px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {/* Tag TOPIK màu pastel góc trên trái */}
+                  <span className={`absolute top-4 left-4 text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide shadow-sm ${tagStyle}`}>
+                    {cleanTag}
+                  </span>
+                  {/* Lớp overlay đen mờ ở cạnh dưới thumbnail hiển thị thời gian học */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 pt-8 z-10">
+                    <span className="text-white text-[11px] font-bold">
+                      {course.weeks} {t('courses.weeks')} · {course.lessons} {t('courses.lessons')}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-6 flex flex-col flex-grow">
+                  {/* Tiêu đề tiếng Hàn nhỏ mờ */}
+                  <span className="text-[10px] text-charcoal-light dark:text-stone-500 font-bold tracking-wider uppercase mb-1 block">
+                    {subTitleKo}
+                  </span>
+                  <h3 className="text-lg font-bold text-charcoal dark:text-stone-100 group-hover:text-koreanRed transition-colors">
+                    {course.title}
+                  </h3>
+                  <p className="text-xs text-charcoal-muted dark:text-stone-400 mt-2 line-clamp-2 leading-relaxed font-medium">
+                    {course.description}
+                  </p>
+                  
+                  {/* OLD:
+                  <div className="mt-6 flex items-center justify-between border-t border-stone-100 dark:border-stone-800 pt-4 text-[11px] font-bold text-charcoal-muted dark:text-stone-400">
+                    <span>{course.weeks} {t('courses.weeks')} · {course.lessons} {t('courses.lessons')}</span>
+                    <span>{course.students} học viên</span>
+                  </div>
+                  <div className="mt-4 pt-1">
+                    <Link 
+                      href={`/vn/courses`}
+                      className="w-full bg-stone-50 dark:bg-stone-950 text-charcoal dark:text-stone-200 border border-stone-200 dark:border-stone-800 py-3 rounded-xl text-xs font-bold text-center block hover:bg-koreanRed hover:text-white hover:border-koreanRed transition-all"
+                    >
+                      {t('courses.details')}
+                    </Link>
+                  </div>
+                  */}
+                  
+                  {/* Chân card: hiển thị số học viên bên trái và nút xem chi tiết đỏ nhạt bên phải */}
+                  <div className="mt-auto pt-5 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-xs text-charcoal-muted dark:text-stone-400 font-semibold">
+                      <User size={14} className="text-stone-400" />
+                      <span>{course.students} học viên</span>
+                    </div>
+                    <Link 
+                      href={`/${locale}/courses`}
+                      className="px-4 py-2 bg-koreanRed-light hover:bg-koreanRed text-koreanRed hover:text-white dark:bg-koreanRed/15 dark:text-red-400 dark:hover:bg-koreanRed dark:hover:text-white rounded-xl text-xs font-bold transition-all"
+                    >
+                      {t('courses.details')}
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
+        {/* OLD:
         <div className="text-center mt-14">
           <Link 
             href={`/vn/courses`}
@@ -541,6 +609,112 @@ export default function HomePageClient() {
             <ChevronRight size={16} />
           </Link>
         </div>
+        */}
+        <div className="text-center mt-14">
+          <Link 
+            href={`/${locale}/courses`}
+            className="inline-flex items-center gap-2 bg-koreanRed hover:bg-koreanRed-dark text-white text-sm font-extrabold py-3.5 px-8 rounded-xl transition-all active:scale-95 shadow-md shadow-koreanRed/15"
+          >
+            Xem tất cả khóa học
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+      </section>
+
+      {/* 3.5. Method Section (Phương pháp học) - Bổ sung mới theo thiết kế */}
+      <section id="methods" className="py-24 px-6 md:px-12 lg:px-20 max-w-[1440px] mx-auto border-t border-stone-200/40 dark:border-stone-800/60 transition-colors duration-300">
+        <div className="text-center mb-16">
+          <span className="text-koreanRed dark:text-red-400 block font-bold text-xs uppercase tracking-widest mb-3 font-mono">
+            Phương pháp học
+          </span>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-charcoal dark:text-stone-100 tracking-tight">
+            Học Tiếng Hàn Hiệu Quả Hơn
+          </h2>
+          <p className="text-sm md:text-base text-charcoal-muted dark:text-stone-400 max-w-2xl mx-auto mt-4 font-medium leading-relaxed">
+            Kết hợp học lý thuyết, luyện tập tương tác và ôn tập thông minh để đạt kết quả tốt nhất.
+          </p>
+        </div>
+
+        {/* Grid Methods */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Card 1 */}
+          <div className="bg-white dark:bg-stone-900 p-8 rounded-2xl border border-stone-150/40 dark:border-stone-800/80 shadow-soft hover:-translate-y-1 transition-all duration-300">
+            <div className="w-12 h-12 rounded-xl bg-red-50 dark:bg-red-950/20 text-koreanRed flex items-center justify-center mb-6">
+              <Play size={22} fill="currentColor" />
+            </div>
+            <h3 className="text-lg font-bold text-charcoal dark:text-stone-100 mb-3">
+              Video Bài Giảng HD
+            </h3>
+            <p className="text-xs text-charcoal-muted dark:text-stone-400 leading-relaxed font-medium">
+              Hơn 250 video bài giảng chất lượng cao với phụ đề song ngữ Hàn - Việt, giảng viên bản ngữ.
+            </p>
+          </div>
+
+          {/* Card 2 */}
+          <div className="bg-white dark:bg-stone-900 p-8 rounded-2xl border border-stone-150/40 dark:border-stone-800/80 shadow-soft hover:-translate-y-1 transition-all duration-300">
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-6">
+              <Layers size={22} />
+            </div>
+            <h3 className="text-lg font-bold text-charcoal dark:text-stone-100 mb-3">
+              Flashcard Từ Vựng
+            </h3>
+            <p className="text-xs text-charcoal-muted dark:text-stone-400 leading-relaxed font-medium">
+              Hệ thống flashcard thông minh với thuật toán Spaced Repetition giúp ghi nhớ từ vựng lâu dài.
+            </p>
+          </div>
+
+          {/* Card 3 */}
+          <div className="bg-white dark:bg-stone-900 p-8 rounded-2xl border border-stone-150/40 dark:border-stone-800/80 shadow-soft hover:-translate-y-1 transition-all duration-300">
+            <div className="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-6">
+              <CheckSquare size={22} />
+            </div>
+            <h3 className="text-lg font-bold text-charcoal dark:text-stone-100 mb-3">
+              Bài Luyện Tập Tương Tác
+            </h3>
+            <p className="text-xs text-charcoal-muted dark:text-stone-400 leading-relaxed font-medium">
+              Trắc nghiệm, điền từ, sắp xếp câu và luyện nghe với chấm điểm tự động và giải thích chi tiết.
+            </p>
+          </div>
+
+          {/* Card 4 */}
+          <div className="bg-white dark:bg-stone-900 p-8 rounded-2xl border border-stone-150/40 dark:border-stone-800/80 shadow-soft hover:-translate-y-1 transition-all duration-300">
+            <div className="w-12 h-12 rounded-xl bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-6">
+              <BarChart2 size={22} />
+            </div>
+            <h3 className="text-lg font-bold text-charcoal dark:text-stone-100 mb-3">
+              Theo Dõi Tiến Độ
+            </h3>
+            <p className="text-xs text-charcoal-muted dark:text-stone-400 leading-relaxed font-medium">
+              Dashboard cá nhân hiển thị số bài đã học, từ vựng đã thuộc và streak học tập hàng ngày.
+            </p>
+          </div>
+
+          {/* Card 5 */}
+          <div className="bg-white dark:bg-stone-900 p-8 rounded-2xl border border-stone-150/40 dark:border-stone-800/80 shadow-soft hover:-translate-y-1 transition-all duration-300">
+            <div className="w-12 h-12 rounded-xl bg-cyan-50 dark:bg-cyan-950/20 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-6">
+              <PenTool size={22} />
+            </div>
+            <h3 className="text-lg font-bold text-charcoal dark:text-stone-100 mb-3">
+              Ghi Chú & Workspace
+            </h3>
+            <p className="text-xs text-charcoal-muted dark:text-stone-400 leading-relaxed font-medium">
+              Tạo ghi chú nhanh trong lúc học, sắp xếp bộ sưu tập theo chủ đề với giao diện kanban.
+            </p>
+          </div>
+
+          {/* Card 6 */}
+          <div className="bg-white dark:bg-stone-900 p-8 rounded-2xl border border-stone-150/40 dark:border-stone-800/80 shadow-soft hover:-translate-y-1 transition-all duration-300">
+            <div className="w-12 h-12 rounded-xl bg-yellow-50 dark:bg-yellow-950/20 text-yellow-600 dark:text-yellow-400 flex items-center justify-center mb-6">
+              <Award size={22} />
+            </div>
+            <h3 className="text-lg font-bold text-charcoal dark:text-stone-100 mb-3">
+              Huy Hiệu Thành Tích
+            </h3>
+            <p className="text-xs text-charcoal-muted dark:text-stone-400 leading-relaxed font-medium">
+              Hệ thống gamification khuyến khích duy trì thói quen học tập với huy hiệu và thành tích.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* 4. Leaderboard Section */}
@@ -548,14 +722,15 @@ export default function HomePageClient() {
         <div className="max-w-[1440px] mx-auto grid lg:grid-cols-12 gap-12 items-center">
           
           <div className="lg:col-span-5 space-y-6">
-            <span className="inline-flex items-center gap-1 bg-koreanRed-light dark:bg-koreanRed/10 text-koreanRed dark:text-red-400 px-3.5 py-1.5 rounded-full text-xs font-bold">
-              {t('leaderboard.badge')}
+            {/* Nhãn xanh lá pastel theo ảnh thiết kế */}
+            <span className="inline-flex items-center gap-1 bg-[#E2F5EC] text-[#2F9E6C] px-3.5 py-1.5 rounded-full text-xs font-bold">
+              🏆 Bảng Xếp Hạng
             </span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-charcoal dark:text-stone-100 tracking-tight leading-tight">
-              {t('leaderboard.title')}
+              Học Viên Xuất Sắc
             </h2>
             <p className="text-sm text-charcoal-muted dark:text-stone-400 leading-relaxed font-medium">
-              {t('leaderboard.desc')}
+              Cùng nhau học tập và leo hạng! Điểm số được tính dựa trên bài học hoàn thành, điểm quiz và streak hàng ngày.
             </p>
 
             {/* Time Filter Tabs */}
@@ -568,7 +743,7 @@ export default function HomePageClient() {
                     : 'text-charcoal-muted dark:text-stone-400 hover:text-charcoal'
                 }`}
               >
-                {t('leaderboard.week')}
+                Tuần
               </button>
               <button 
                 onClick={() => setLeaderboardTab('MONTH')}
@@ -578,7 +753,7 @@ export default function HomePageClient() {
                     : 'text-charcoal-muted dark:text-stone-400 hover:text-charcoal'
                 }`}
               >
-                {t('leaderboard.month')}
+                Tháng
               </button>
               <button 
                 onClick={() => setLeaderboardTab('ALLTIME')}
@@ -588,40 +763,112 @@ export default function HomePageClient() {
                     : 'text-charcoal-muted dark:text-stone-400 hover:text-charcoal'
                 }`}
               >
-                {t('leaderboard.allTime')}
+                Mọi lúc
               </button>
             </div>
           </div>
 
+          {/* Thiết kế lại góc phải thành dạng Podium Top 3 hoành tráng */}
           <div className="lg:col-span-7">
+            {/* OLD:
             <div className="bg-white dark:bg-stone-950 rounded-3xl border border-stone-200/50 dark:border-stone-800/80 shadow-2xl p-6 md:p-8 space-y-4">
               {leaderboardData.map((user, idx) => (
-                <div key={user.rank} className="flex items-center justify-between p-4 rounded-2xl hover:bg-stone-50 dark:hover:bg-stone-900 transition-colors border border-stone-100/30 dark:border-stone-800/30">
-                  <div className="flex items-center gap-4">
-                    {/* Rank Badge */}
-                    <span className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${
-                      user.rank === 1 ? 'bg-amber-400 text-white' :
-                      user.rank === 2 ? 'bg-stone-300 text-charcoal' :
-                      'bg-orange-300 text-white'
-                    }`}>
-                      {user.rank}
-                    </span>
-                    {/* User Avatar */}
-                    <div className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-stone-100 dark:border-stone-800">
-                      <Image src={user.avatar} alt={user.name} fill className="object-cover" />
-                    </div>
-                    <div>
-                      <h4 className="font-extrabold text-sm text-charcoal dark:text-stone-100">{user.name}</h4>
-                      <span className="text-[10px] text-charcoal-muted dark:text-stone-500 font-bold mt-0.5 block">{user.level}</span>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-sm font-extrabold text-koreanRed dark:text-red-400">{user.score}</span>
-                    <span className="text-[10px] text-charcoal-muted dark:text-stone-400 block mt-0.5">{t('leaderboard.points')}</span>
-                  </div>
-                </div>
+                <div key={user.rank} ...>
               ))}
             </div>
+            */}
+            {(() => {
+              // Nhân hệ số điểm tương ứng để tạo sự thay đổi sinh động khi chuyển tab
+              const factor = leaderboardTab === 'WEEK' ? 1 : leaderboardTab === 'MONTH' ? 4 : 12;
+              const currentLeaderboard = leaderboardData.map(u => ({
+                ...u,
+                score: u.score * factor
+              }));
+              
+              const top1 = currentLeaderboard.find(u => u.rank === 1)!;
+              const top2 = currentLeaderboard.find(u => u.rank === 2)!;
+              const top3 = currentLeaderboard.find(u => u.rank === 3)!;
+
+              return (
+                <div className="flex flex-row items-end justify-center gap-4 sm:gap-6 pt-10 pb-6 w-full">
+                  {/* Top 2 - Nằm bên trái */}
+                  <div className="flex-1 max-w-[190px] flex flex-col items-center">
+                    <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-150/40 dark:border-stone-800/80 shadow-soft p-5 w-full flex flex-col items-center text-center transform hover:-translate-y-1 transition-all duration-300">
+                      {/* Avatar container */}
+                      <div className="relative mb-4">
+                        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-stone-100 dark:border-stone-800">
+                          <Image src={top2.avatar} alt={top2.name} fill className="object-cover" />
+                        </div>
+                        {/* Huy hiệu số 2 màu cam ở góc */}
+                        <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-orange-400 text-white font-extrabold text-xs flex items-center justify-center border-2 border-white dark:border-stone-900">
+                          2
+                        </span>
+                      </div>
+                      <h4 className="font-extrabold text-xs sm:text-sm text-charcoal dark:text-stone-100 truncate w-full">{top2.name}</h4>
+                      <span className="text-[9px] text-charcoal-muted dark:text-stone-500 font-bold mt-1 block">{top2.level}</span>
+                      
+                      {/* Điểm ngọn lửa màu xanh lá cây theo ảnh thiết kế */}
+                      <div className="mt-4 flex items-center gap-1 bg-[#E2F5EC] dark:bg-emerald-950/20 text-[#2F9E6C] px-3 py-1 rounded-xl w-fit">
+                        <Flame size={12} className="fill-current text-emerald-600 dark:text-emerald-400" />
+                        <span className="text-xs font-extrabold">{top2.score} điểm</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Top 1 - Nằm ở giữa, cao hơn và có viền xanh lá */}
+                  <div className="flex-1 max-w-[210px] flex flex-col items-center">
+                    <div className="bg-white dark:bg-stone-900 rounded-2xl border-2 border-[#2F9E6C] shadow-soft-lg p-6 w-full flex flex-col items-center text-center transform hover:-translate-y-1.5 transition-all duration-300 min-h-[260px] justify-center relative">
+                      {/* Ribbon / Crown placeholder */}
+                      <span className="absolute -top-3.5 bg-[#2F9E6C] text-white text-[9px] font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider shadow-sm z-10">
+                        Quán Quân
+                      </span>
+                      {/* Avatar container */}
+                      <div className="relative mb-4">
+                        <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-[#2F9E6C]">
+                          <Image src={top1.avatar} alt={top1.name} fill className="object-cover" />
+                        </div>
+                        {/* Huy hiệu số 1 màu xanh lá ở góc */}
+                        <span className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[#2F9E6C] text-white font-extrabold text-xs flex items-center justify-center border-2 border-white dark:border-stone-900">
+                          1
+                        </span>
+                      </div>
+                      <h4 className="font-extrabold text-sm sm:text-base text-charcoal dark:text-stone-100 truncate w-full">{top1.name}</h4>
+                      <span className="text-[10px] text-charcoal-muted dark:text-stone-500 font-bold mt-1 block">{top1.level}</span>
+                      
+                      {/* Điểm ngọn lửa màu xanh lá cây */}
+                      <div className="mt-4 flex items-center gap-1 bg-[#E2F5EC] dark:bg-emerald-950/20 text-[#2F9E6C] px-3.5 py-1.5 rounded-xl w-fit">
+                        <Flame size={14} className="fill-current text-emerald-600 dark:text-emerald-400" />
+                        <span className="text-xs font-extrabold">{top1.score} điểm</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Top 3 - Nằm bên phải */}
+                  <div className="flex-1 max-w-[190px] flex flex-col items-center">
+                    <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-150/40 dark:border-stone-800/80 shadow-soft p-5 w-full flex flex-col items-center text-center transform hover:-translate-y-1 transition-all duration-300">
+                      {/* Avatar container */}
+                      <div className="relative mb-4">
+                        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-stone-100 dark:border-stone-800">
+                          <Image src={top3.avatar} alt={top3.name} fill className="object-cover" />
+                        </div>
+                        {/* Huy hiệu số 3 màu đỏ ở góc */}
+                        <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-red-500 text-white font-extrabold text-xs flex items-center justify-center border-2 border-white dark:border-stone-900">
+                          3
+                        </span>
+                      </div>
+                      <h4 className="font-extrabold text-xs sm:text-sm text-charcoal dark:text-stone-100 truncate w-full">{top3.name}</h4>
+                      <span className="text-[9px] text-charcoal-muted dark:text-stone-500 font-bold mt-1 block">{top3.level}</span>
+                      
+                      {/* Điểm ngọn lửa màu xanh lá cây */}
+                      <div className="mt-4 flex items-center gap-1 bg-[#E2F5EC] dark:bg-emerald-950/20 text-[#2F9E6C] px-3 py-1 rounded-xl w-fit">
+                        <Flame size={12} className="fill-current text-emerald-600 dark:text-emerald-400" />
+                        <span className="text-xs font-extrabold">{top3.score} điểm</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
 
         </div>
