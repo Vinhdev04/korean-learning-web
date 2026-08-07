@@ -97,3 +97,218 @@
 }
 
 /* --------------------------------------------------------- */
+
+/* ==========================================================================
+   [KOREAN DESIGN SYSTEM UTILITY CLASSES]
+   ========================================================================== */
+
+/* Nút bấm Đỏ chính (Primary Button) */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-korean-red);
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(225, 25, 42, 0.15);
+
+  &:hover {
+    background-color: var(--color-korean-red-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(225, 25, 42, 0.25);
+  }
+
+  &:active {
+    transform: translateY(1px) scale(0.98);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Nút bấm Phụ Đất/Nâu tối (Secondary Button) */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(64, 59, 58, 0.7);
+  backdrop-filter: blur(8px);
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(64, 59, 58, 0.9);
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  &:active {
+    transform: translateY(1px) scale(0.98);
+  }
+}
+
+/* Thẻ thông tin chung (Glass Card hoặc Soft Card) */
+.card-soft {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft-md);
+  padding: 1.5rem;
+  border: 1px solid rgba(26, 24, 23, 0.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft-lg);
+  }
+}
+
+/* Thẻ khóa học (Course Card) */
+.course-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft-md);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(26, 24, 23, 0.03);
+
+  .course-image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* Tỉ lệ màn ảnh rộng 16:9 */
+    background-color: var(--color-warm-cream-soft);
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft-lg);
+
+    .course-image-container img {
+      transform: scale(1.05);
+    }
+  }
+}
+
+/* Thẻ Flashcard Lật 3D (3D Flipping Card) cho việc luyện từ vựng */
+.flashcard-wrapper {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 380px;
+  height: 240px;
+  cursor: pointer;
+
+  .flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    box-shadow: var(--shadow-soft-md);
+    border-radius: 16px;
+  }
+
+  &.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(26, 24, 23, 0.05);
+  }
+
+  .flashcard-back {
+    transform: rotateY(180deg);
+    background-color: var(--color-warm-cream-soft);
+  }
+}
+
+/* Vùng phủ hoàng hôn Seoul (Seoul Sunset Overlay) */
+.hero-seoul-sunset {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1920&q=80');
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      180deg, 
+      rgba(26, 24, 23, 0.6) 0%, 
+      rgba(26, 24, 23, 0.8) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.text-gradient-red {
+  background: linear-gradient(135deg, var(--color-korean-red) 0%, #FFA07A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(225, 25, 42, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(225, 25, 42, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(225, 25, 42, 0);
+  }
+}
+
