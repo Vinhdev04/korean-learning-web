@@ -86,4 +86,24 @@ yarn-error.log*
 # env files
 .env
 .env*.local
+.env.*
+
+# Security, Keys & Credentials
+*.pem
+*.key
+*.pub
+*key*
+*cert*
+*credential*
+credentials/
+keys/
+
+# BA (Business Analyst) & Design Documents
+*BA*
+*ba*
+*business-analyst*
+*document*
+*security*
+docs/ba/
+docs/design/
 

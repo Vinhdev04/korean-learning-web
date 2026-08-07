@@ -68,9 +68,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       getMessageFallback={({ key }) => `${key}`}
     >
       <LanguageProvider initialLanguage={locale}>
-        {/* OLD: <div className={`${beVietnamPro.className}`} suppressHydrationWarning> */}
-        <div className="font-sans" suppressHydrationWarning>
-          <div className="bg-white">
+        <div
+          className="font-sans bg-white dark:bg-stone-950 text-charcoal dark:text-stone-150 min-h-screen transition-colors duration-300"
+          suppressHydrationWarning
+        >
+          <div className="bg-white dark:bg-stone-950 transition-colors duration-300">
             <HeaderClient />
             {children}
           </div>

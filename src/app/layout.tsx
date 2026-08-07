@@ -104,9 +104,15 @@ export default function RootLayout({
         </Script>
       </head>
       {/* OLD: <body suppressHydrationWarning className="font-outfit bg-slate-50 text-slate-900 antialiased"> */}
+      {/* OLD:
       <body
         suppressHydrationWarning
         className={`${plusJakartaSans.variable} font-sans bg-slate-50 text-slate-900 antialiased`}
+      >
+      */}
+      <body
+        suppressHydrationWarning
+        className={`${plusJakartaSans.variable} font-sans bg-slate-50 dark:bg-stone-950 text-slate-900 dark:text-stone-100 antialiased transition-colors duration-300`}
       >
         <ThemeProvider>
           <SidebarProvider>

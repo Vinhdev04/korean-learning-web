@@ -1154,3 +1154,17 @@ li {
   transform: rotateY(180deg);
   background-color: var(--color-gray-50);
 }
+
+/* Hiệu ứng lấp lánh (Shimmer Effect) cho Skeleton placeholders */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.8s infinite linear;
+}

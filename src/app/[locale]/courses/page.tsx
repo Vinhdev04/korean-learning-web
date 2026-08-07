@@ -73,15 +73,16 @@ export default function CoursesPage() {
   const filteredCourses =
     filter === 'all' ? COURSES_DATA : COURSES_DATA.filter(course => course.levelKey === filter);
 
+  // OLD: return ( ... )
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 font-outfit min-h-screen">
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 font-sans min-h-screen text-charcoal dark:text-stone-150 transition-colors duration-300">
       {/* Page Header */}
-      <div className="text-center md:text-left md:flex md:items-end md:justify-between border-b border-slate-200 pb-8">
+      <div className="text-center md:text-left md:flex md:items-end md:justify-between border-b border-slate-200 dark:border-stone-850 pb-8">
         <div className="max-w-2xl">
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 dark:text-stone-100 sm:text-4xl">
             Danh sách khóa học tiếng Hàn
           </h1>
-          <p className="mt-3 text-slate-600">
+          <p className="mt-3 text-slate-600 dark:text-stone-400">
             Lộ trình đào tạo chuẩn hóa quốc tế giúp bạn chinh phục các cấp độ TOPIK I và TOPIK II
             một cách bài bản nhất.
           </p>
@@ -89,8 +90,8 @@ export default function CoursesPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="mt-8 flex flex-wrap items-center gap-2 border-b border-slate-100 pb-4">
-        <div className="flex items-center gap-1.5 text-slate-500 text-sm font-semibold mr-4">
+      <div className="mt-8 flex flex-wrap items-center gap-2 border-b border-slate-100 dark:border-stone-850/60 pb-4">
+        <div className="flex items-center gap-1.5 text-slate-500 dark:text-stone-400 text-sm font-semibold mr-4">
           <Filter size={16} />
           Bộ lọc cấp độ:
         </div>
@@ -106,7 +107,7 @@ export default function CoursesPage() {
             className={`rounded-xl px-4 py-2 text-sm font-bold transition-all duration-300 active:scale-98 ${
               filter === tab.key
                 ? 'bg-teal-600 text-white shadow-md shadow-teal-600/10'
-                : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                : 'bg-white dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-slate-600 dark:text-stone-350 hover:bg-slate-50 dark:hover:bg-stone-850'
             }`}
           >
             {tab.label}
@@ -119,7 +120,7 @@ export default function CoursesPage() {
         {filteredCourses.map(course => (
           <div
             key={course.id}
-            className="flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm hover:shadow-md hover:border-teal-500/20 transition-all duration-300 group"
+            className="flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 shadow-sm hover:shadow-md hover:border-teal-500/20 dark:hover:border-teal-500/30 transition-all duration-300 group"
           >
             <div>
               {/* Cấp độ Badge */}
@@ -132,15 +133,15 @@ export default function CoursesPage() {
               </div>
 
               {/* Title & Description */}
-              <h3 className="mt-4 text-xl font-bold text-slate-950 group-hover:text-teal-600 transition-colors">
+              <h3 className="mt-4 text-xl font-bold text-slate-950 dark:text-stone-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
                 {course.title}
               </h3>
-              <p className="mt-2 text-sm text-slate-600 leading-relaxed min-h-[72px]">
+              <p className="mt-2 text-sm text-slate-600 dark:text-stone-400 leading-relaxed min-h-[72px]">
                 {course.desc}
               </p>
 
               {/* Meta information */}
-              <div className="mt-6 flex items-center gap-6 border-t border-slate-100 pt-4 text-xs text-slate-500 font-semibold">
+              <div className="mt-6 flex items-center gap-6 border-t border-slate-100 dark:border-stone-850 pt-4 text-xs text-slate-500 dark:text-stone-400 font-semibold">
                 <div className="flex items-center gap-1.5">
                   <Layers size={14} className="text-teal-500" />
                   <span>{course.lessons} bài học</span>
@@ -156,7 +157,7 @@ export default function CoursesPage() {
             <div className="mt-8">
               <Link
                 href={`/vn/courses/${course.id}`}
-                className="block w-full text-center rounded-xl bg-slate-950 py-3 text-sm font-bold text-white shadow-sm hover:bg-teal-600 transition-all duration-300 active:scale-98"
+                className="block w-full text-center rounded-xl bg-slate-950 dark:bg-stone-800 hover:bg-teal-600 dark:hover:bg-teal-600 py-3 text-sm font-bold text-white shadow-sm transition-all duration-300 active:scale-98"
               >
                 Xem chi tiết
               </Link>
