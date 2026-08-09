@@ -10,7 +10,8 @@ async function getSEO(language: number | undefined) {
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const { locale } = await params;
   const siteTitle = 'Website Học Tiếng Hàn Trực Tuyến - Luyện thi TOPIK';
-  const siteDesc = 'Nền tảng tự học tiếng Hàn trực tuyến toàn diện. Học lý thuyết bài bản, luyện tập tương tác (Quiz, Flashcards Leitner) và xem video bài giảng chi tiết.';
+  const siteDesc =
+    'Nền tảng tự học tiếng Hàn trực tuyến toàn diện. Học lý thuyết bài bản, luyện tập tương tác (Quiz, Flashcards Leitner) và xem video bài giảng chi tiết.';
 
   return {
     title: siteTitle,
@@ -36,10 +37,16 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       description: siteDesc,
       images: ['/korean_hero_illustration.png'],
     },
+    // OLD:
+    // icons: {
+    //   icon: '/favicon.ico',
+    //   shortcut: '/favicon.ico',
+    //   apple: '/favicon.ico',
+    // },
     icons: {
-      icon: '/favicon.ico',
-      shortcut: '/favicon.ico',
-      apple: '/favicon.ico',
+      icon: '/icon.svg',
+      shortcut: '/icon.svg',
+      apple: '/icon.svg',
     },
   };
 }

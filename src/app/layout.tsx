@@ -60,6 +60,12 @@ export const metadata: Metadata = {
       'Nền tảng tự học tiếng Hàn trực tuyến toàn diện, xem video bài giảng chi tiết và luyện tập tương tác thông minh.',
     images: ['/images/korean_hero_illustration.png'],
   },
+  // OLD:
+  // icons: {
+  //   icon: '/icon.svg',
+  //   shortcut: '/icon.svg',
+  //   apple: '/icon.svg',
+  // },
   icons: {
     icon: '/icon.svg',
     shortcut: '/icon.svg',
