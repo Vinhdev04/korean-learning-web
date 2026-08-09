@@ -1,14 +1,16 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ArrowUp, X, Mail, Facebook, MessageCircle, Bot, Send } from 'lucide-react';
+// OLD: import { ArrowUp, X, Mail, Facebook, MessageCircle, Bot, Send } from 'lucide-react';
+import { ArrowUp, X, Mail, Facebook, Instagram, Bot, Send } from 'lucide-react';
 
 // Khai báo kiểu dữ liệu cho bản dịch
 interface Translations {
   tooltip: {
     zalo: string;
     facebook: string;
-    messenger: string;
+    // OLD: messenger: string;
+    instagram: string;
     gmail: string;
     chatAI: string;
     backToTop: string;
@@ -28,7 +30,8 @@ const HUB_TRANSLATIONS: Record<'vi' | 'ko', Translations> = {
     tooltip: {
       zalo: 'Trò chuyện qua Zalo',
       facebook: 'Ghé thăm Fanpage',
-      messenger: 'Nhắn tin Messenger',
+      // OLD: messenger: 'Nhắn tin Messenger',
+      instagram: 'Ghé thăm Instagram',
       gmail: 'Gửi Email hỗ trợ',
       chatAI: 'Trợ lý AI học tập',
       backToTop: 'Về đầu trang',
@@ -47,7 +50,8 @@ const HUB_TRANSLATIONS: Record<'vi' | 'ko', Translations> = {
     tooltip: {
       zalo: 'Zalo로 채팅하기',
       facebook: '팬페이지 방문',
-      messenger: '메신저 보내기',
+      // OLD: messenger: '메신저 보내기',
+      instagram: '인스타그램 방문',
       gmail: '지원 이메일 보내기',
       chatAI: 'AI 학습 도우미',
       backToTop: '맨 위로',
@@ -154,8 +158,16 @@ export default function FloatingActionHub({ locale = 'vn' }: FloatingActionHubPr
       <div className="fixed bottom-24 right-6 z-40 flex flex-col gap-3.5">
         {/* Zalo Button */}
         <div className="relative group">
+          {/* OLD:
           <a
             href="https://zalo.me/0909090909"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800/80 shadow-lg text-[#0068ff] transition-all duration-300 hover-wiggle active:scale-95 group-hover:shadow-[#0068ff]/25 group-hover:shadow-md"
+          >
+          */}
+          <a
+            href="https://zalo.me/0352032375"
             target="_blank"
             rel="noopener noreferrer"
             className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800/80 shadow-lg text-[#0068ff] transition-all duration-300 hover-wiggle active:scale-95 group-hover:shadow-[#0068ff]/25 group-hover:shadow-md"
@@ -181,8 +193,16 @@ export default function FloatingActionHub({ locale = 'vn' }: FloatingActionHubPr
 
         {/* Facebook Button */}
         <div className="relative group">
+          {/* OLD:
           <a
             href="https://facebook.com/hanquochoc"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800/80 shadow-lg text-[#1877f2] transition-all duration-300 hover-wiggle active:scale-95 group-hover:shadow-[#1877f2]/25 group-hover:shadow-md"
+          >
+          */}
+          <a
+            href="https://www.facebook.com/i.padygamy1210"
             target="_blank"
             rel="noopener noreferrer"
             className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800/80 shadow-lg text-[#1877f2] transition-all duration-300 hover-wiggle active:scale-95 group-hover:shadow-[#1877f2]/25 group-hover:shadow-md"
@@ -194,8 +214,9 @@ export default function FloatingActionHub({ locale = 'vn' }: FloatingActionHubPr
           </span>
         </div>
 
-        {/* Messenger Button */}
+        {/* Instagram Button */}
         <div className="relative group">
+          {/* OLD:
           <a
             href="https://m.me/hanquochoc"
             target="_blank"
@@ -207,12 +228,30 @@ export default function FloatingActionHub({ locale = 'vn' }: FloatingActionHubPr
           <span className="absolute right-14 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-stone-900 text-white dark:bg-white dark:text-stone-900 text-xs font-bold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 transition-all duration-300 shadow-md">
             {t.tooltip.messenger}
           </span>
+          */}
+          <a
+            href="https://www.instagram.com/its_me_vinh"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800/80 shadow-lg text-[#E1306C] transition-all duration-300 hover-wiggle active:scale-95 group-hover:shadow-[#E1306C]/25 group-hover:shadow-md"
+          >
+            <Instagram size={22} strokeWidth={2.2} />
+          </a>
+          <span className="absolute right-14 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-stone-900 text-white dark:bg-white dark:text-stone-900 text-xs font-bold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 transition-all duration-300 shadow-md">
+            {t.tooltip.instagram}
+          </span>
         </div>
 
         {/* Gmail Button */}
         <div className="relative group">
+          {/* OLD:
           <a
             href="mailto:support@hanquochoc.edu.vn"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800/80 shadow-lg text-[#ea4335] transition-all duration-300 hover-wiggle active:scale-95 group-hover:shadow-[#ea4335]/25 group-hover:shadow-md"
+          >
+          */}
+          <a
+            href="mailto:pcv.fed@gmail.com"
             className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800/80 shadow-lg text-[#ea4335] transition-all duration-300 hover-wiggle active:scale-95 group-hover:shadow-[#ea4335]/25 group-hover:shadow-md"
           >
             <Mail size={22} strokeWidth={2.2} />
