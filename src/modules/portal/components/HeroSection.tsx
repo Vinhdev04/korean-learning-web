@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-
 import { Check } from 'lucide-react';
+import { motion } from 'framer-motion';
+import LanguageParticles3D from './LanguageParticles3D';
 
 interface HeroSectionProps {
   /** Hàm dịch thuật */
@@ -37,41 +38,160 @@ interface HeroSectionProps {
  * Thiết kế mang phong cách hoàng hôn Seoul (Seoul Sunset Overlay) cổ kính và lãng mạn,
  * bổ sung các vòng tròn trang trí và đầy đủ thông tin tiêu đề, mô tả và checkmarks.
  *
+ * SỬA ĐỔI: Tích hợp Canvas 3D hạt hoàng hôn bay lơ lửng bằng Three.js và chuyển động trượt mượt mà Framer Motion.
+ *
  * @param props - Thuộc tính component
  * @returns Component HeroSection hoàn chỉnh
  */
 export default function HeroSection({ t, openAuthModal }: HeroSectionProps) {
+  // OLD:
+  // return (
+  //   <section className="hero-seoul-sunset relative w-full min-h-[680px] flex items-center justify-center text-center px-6 py-24 overflow-hidden">
+  //     {/* Vòng tròn trang trí mờ ảo tạo chiều sâu mỹ thuật */}
+  //     <div className="absolute w-28 h-28 sm:w-36 sm:h-36 border border-white/10 rounded-full left-[10%] top-[25%] animate-pulse duration-[4000ms] pointer-events-none" />
+  //     <div className="absolute w-14 h-14 sm:w-16 sm:h-16 border border-white/10 rounded-full left-[20%] bottom-[20%] animate-pulse duration-[5000ms] pointer-events-none" />
+  //     <div className="absolute w-20 h-20 sm:w-24 sm:h-24 border border-white/10 rounded-full right-[12%] top-[35%] animate-pulse duration-[6000ms] pointer-events-none" />
+  //
+  //     <div className="hero-content max-w-4xl mx-auto flex flex-col items-center z-10 animate-fade-in-up">
+  //       {/* Tagline tiếng Hàn phụ ở trên */}
+  //       <span className="text-sm sm:text-base font-medium text-warmCream-soft/90 dark:text-stone-300 mb-4 tracking-wider uppercase">
+  //         한국어를 배우는 가장 좋은 방법
+  //       </span>
+  //
+  //       {/* Tiêu đề chính lớn */}
+  //       <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+  //         Học Tiếng Hàn Online
+  //       </h1>
+  //
+  //       {/* Phụ đề lớn màu cam vàng hoàng hôn rực rỡ */}
+  //       <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#FFA07A] mt-2 mb-6 tracking-wide">
+  //         Từ Sơ Cấp Đến TOPIK II
+  //       </h2>
+  //
+  //       {/* Đoạn mô tả ngắn gọn, thoáng đãng */}
+  //       <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mb-10 leading-relaxed font-light">
+  //         Lộ trình học tiếng Hàn toàn diện với video bài giảng chi tiết, bài luyện tập tương tác và
+  //         flashcard từ vựng thông minh.
+  //       </p>
+  //
+  //       {/* Các nút CTA bấm chính/phụ */}
+  //       <div className="flex flex-col sm:flex-row gap-4 mb-12 w-full sm:w-auto justify-center">
+  //         <button
+  //           onClick={() => openAuthModal('REGISTER')}
+  //           className="bg-koreanRed hover:bg-koreanRed-dark text-white text-base font-bold py-4 px-10 rounded-xl transition-all duration-300 active:scale-95 shadow-lg shadow-koreanRed/30"
+  //         >
+  //           {t('hero.startBtn')}
+  //         </button>
+  //         <a
+  //           href="#courses"
+  //           className="bg-white/10 hover:bg-white/20 text-white border border-white/20 text-base font-bold py-4 px-10 rounded-xl transition-all duration-300 active:scale-95 text-center flex items-center justify-center backdrop-blur-sm"
+  //         >
+  //           Xem tất cả khóa học
+  //         </a>
+  //       </div>
+  //
+  //       {/* Các đặc điểm checkmarks hỗ trợ trực quan */}
+  //       <div className="grid grid-cols-2 md:flex md:flex-row md:items-center justify-center gap-x-8 gap-y-3 text-white/90 text-sm font-medium">
+  //         <div className="flex items-center gap-2 justify-center">
+  //           <Check size={16} className="text-emerald-400" />
+  //           <span>Học miễn phí</span>
+  //         </div>
+  //         <div className="flex items-center gap-2 justify-center">
+  //           <Check size={16} className="text-emerald-400" />
+  //           <span>Video bài giảng HD</span>
+  //         </div>
+  //         <div className="flex items-center gap-2 justify-center">
+  //           <Check size={16} className="text-emerald-400" />
+  //           <span>Luyện tập tương tác</span>
+  //         </div>
+  //         <div className="flex items-center gap-2 justify-center">
+  //           <Check size={16} className="text-emerald-400" />
+  //           <span>Theo dõi tiến độ</span>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </section>
+  // );
+
+  // Biến cấu hình hoạt họa Framer Motion cho container cha
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12, // Tạo khoảng trễ 120ms giữa các con
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  // Biến cấu hình hoạt họa cho từng phần tử con
+  const itemVariants = {
+    hidden: { opacity: 0, y: 25 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1], // EaseOut expo curve tự nhiên
+      },
+    },
+  };
+
   return (
     <section className="hero-seoul-sunset relative w-full min-h-[680px] flex items-center justify-center text-center px-6 py-24 overflow-hidden">
-      {/* Vòng tròn trang trí mờ ảo tạo chiều sâu mỹ thuật */}
-      <div className="absolute w-28 h-28 sm:w-36 sm:h-36 border border-white/10 rounded-full left-[10%] top-[25%] animate-pulse duration-[4000ms] pointer-events-none" />
-      <div className="absolute w-14 h-14 sm:w-16 sm:h-16 border border-white/10 rounded-full left-[20%] bottom-[20%] animate-pulse duration-[5000ms] pointer-events-none" />
-      <div className="absolute w-20 h-20 sm:w-24 sm:h-24 border border-white/10 rounded-full right-[12%] top-[35%] animate-pulse duration-[6000ms] pointer-events-none" />
+      {/* Nền 3D các hạt hoàng hôn chuyển động lơ lửng bằng Three.js */}
+      <LanguageParticles3D className="absolute inset-0 z-0 opacity-75" />
 
-      <div className="hero-content max-w-4xl mx-auto flex flex-col items-center z-10 animate-fade-in-up">
+      {/* Vòng tròn trang trí mờ ảo tạo chiều sâu mỹ thuật */}
+      <div className="absolute w-28 h-28 sm:w-36 sm:h-36 border border-white/10 rounded-full left-[10%] top-[25%] animate-pulse duration-[4000ms] pointer-events-none z-0" />
+      <div className="absolute w-14 h-14 sm:w-16 sm:h-16 border border-white/10 rounded-full left-[20%] bottom-[20%] animate-pulse duration-[5000ms] pointer-events-none z-0" />
+      <div className="absolute w-20 h-20 sm:w-24 sm:h-24 border border-white/10 rounded-full right-[12%] top-[35%] animate-pulse duration-[6000ms] pointer-events-none z-0" />
+
+      <motion.div
+        className="hero-content max-w-4xl mx-auto flex flex-col items-center z-10"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Tagline tiếng Hàn phụ ở trên */}
-        <span className="text-sm sm:text-base font-medium text-warmCream-soft/90 dark:text-stone-300 mb-4 tracking-wider uppercase">
+        <motion.span
+          className="text-sm sm:text-base font-medium text-warmCream-soft/90 dark:text-stone-300 mb-4 tracking-wider uppercase block"
+          variants={itemVariants}
+        >
           한국어를 배우는 가장 좋은 방법
-        </span>
+        </motion.span>
 
         {/* Tiêu đề chính lớn */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+        <motion.h1
+          className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight block"
+          variants={itemVariants}
+        >
           Học Tiếng Hàn Online
-        </h1>
+        </motion.h1>
 
         {/* Phụ đề lớn màu cam vàng hoàng hôn rực rỡ */}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#FFA07A] mt-2 mb-6 tracking-wide">
+        <motion.h2
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#FFA07A] mt-2 mb-6 tracking-wide block"
+          variants={itemVariants}
+        >
           Từ Sơ Cấp Đến TOPIK II
-        </h2>
+        </motion.h2>
 
         {/* Đoạn mô tả ngắn gọn, thoáng đãng */}
-        <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mb-10 leading-relaxed font-light">
+        <motion.p
+          className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mb-10 leading-relaxed font-light block"
+          variants={itemVariants}
+        >
           Lộ trình học tiếng Hàn toàn diện với video bài giảng chi tiết, bài luyện tập tương tác và
           flashcard từ vựng thông minh.
-        </p>
+        </motion.p>
 
         {/* Các nút CTA bấm chính/phụ */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-12 w-full sm:w-auto justify-center">
+        <motion.div
+          className="flex flex-col sm:flex-row gap-4 mb-12 w-full sm:w-auto justify-center"
+          variants={itemVariants}
+        >
           <button
             onClick={() => openAuthModal('REGISTER')}
             className="bg-koreanRed hover:bg-koreanRed-dark text-white text-base font-bold py-4 px-10 rounded-xl transition-all duration-300 active:scale-95 shadow-lg shadow-koreanRed/30"
@@ -84,10 +204,13 @@ export default function HeroSection({ t, openAuthModal }: HeroSectionProps) {
           >
             Xem tất cả khóa học
           </a>
-        </div>
+        </motion.div>
 
         {/* Các đặc điểm checkmarks hỗ trợ trực quan */}
-        <div className="grid grid-cols-2 md:flex md:flex-row md:items-center justify-center gap-x-8 gap-y-3 text-white/90 text-sm font-medium">
+        <motion.div
+          className="grid grid-cols-2 md:flex md:flex-row md:items-center justify-center gap-x-8 gap-y-3 text-white/90 text-sm font-medium"
+          variants={itemVariants}
+        >
           <div className="flex items-center gap-2 justify-center">
             <Check size={16} className="text-emerald-400" />
             <span>Học miễn phí</span>
@@ -104,8 +227,8 @@ export default function HeroSection({ t, openAuthModal }: HeroSectionProps) {
             <Check size={16} className="text-emerald-400" />
             <span>Theo dõi tiến độ</span>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

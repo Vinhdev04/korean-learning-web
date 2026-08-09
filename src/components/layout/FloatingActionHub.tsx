@@ -344,7 +344,8 @@ export default function FloatingActionHub({ locale = 'vn' }: FloatingActionHubPr
 
       {/* 4. NÚT BACK TO TOP (XẾP THẲNG HÀNG TRÊN NÚT BUBBLE) */}
       {isBackToTopVisible && !showChatPopup && (
-        <div className="fixed bottom-24 right-7 z-40 animate-in fade-in zoom-in-75 duration-350">
+        // OLD: <div className="fixed bottom-24 right-7 z-40 animate-in fade-in zoom-in-75 duration-350">
+        <div className="fixed bottom-7 right-24 z-40 animate-in fade-in zoom-in-75 duration-350">
           <button
             onClick={scrollToTop}
             className="w-12 h-12 rounded-full bg-stone-900/90 dark:bg-stone-850/90 hover:bg-koreanRed dark:hover:bg-red-500 text-white flex items-center justify-center shadow-lg transition-all duration-300 hover:-translate-y-1 active:scale-95"
