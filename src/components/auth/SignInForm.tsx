@@ -21,7 +21,8 @@ import Input from '@/components/form/input/InputField';
 import Label from '@/components/form/Label';
 import Button from '@/components/ui/button/Button';
 import { EyeCloseIcon, EyeIcon } from '@/icons';
-import AuthService, { authen } from '@/service/authService';
+import AuthService from '@/service/authService';
+import { authen } from '@/modules/admin/types/auth';
 import { ShieldCheck, UserCheck, HelpCircle } from 'lucide-react';
 
 /**
