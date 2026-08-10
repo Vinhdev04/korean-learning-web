@@ -20,21 +20,11 @@ import {
   UserCheck,
   Award,
   Sparkles,
+  Activity,
+  Clock,
+  ShieldCheck,
+  ArrowDownRight,
 } from 'lucide-react';
-
-// OLD:
-// export default function AdminDashboardPage() {
-//   return (
-//     <div className="space-y-8 font-outfit">
-//       {/* Page Header */}
-//       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-//         ...
-//       </div>
-//     </div>
-//   );
-// }
-
-import { Activity, Clock, ArrowUpRight, ShieldCheck, ArrowDownRight } from 'lucide-react';
 
 /**
  * Trang Dashboard Tổng quan quản trị Admin CMS
