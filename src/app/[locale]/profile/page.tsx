@@ -1,14 +1,8 @@
 'use client';
 
-// OLD:
-/*
-export default function ProfilePage() {
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-...
-*/
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { passkeyService } from '@/service/passkeyService';
 import {
   Award,
   Flame,
@@ -19,9 +13,36 @@ import {
   Star,
   Zap,
   TrendingUp,
+  Fingerprint,
 } from 'lucide-react';
 
 export default function ProfilePage() {
+  const [isPasskeySupported, setIsPasskeySupported] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const userEmail = 'hocvien@koreanlearning.com';
+  const userFullName = 'Học viên Tiếng Hàn';
+
+  useEffect(() => {
+    passkeyService.isSupported().then(supported => {
+      setIsPasskeySupported(supported);
+      if (supported) {
+        setIsRegistered(!!localStorage.getItem(`passkey_${userEmail}`));
+      }
+    });
+  }, []);
+
+  const handleRegisterPasskey = async () => {
+    try {
+      const success = await passkeyService.register(userEmail, userFullName);
+      if (success) {
+        setIsRegistered(true);
+        toast.success('Liên kết đăng nhập vân tay/FaceID trên thiết bị này thành công!');
+      }
+    } catch (err: any) {
+      toast.error(err.message || 'Liên kết FaceID/Passkey thất bại.');
+    }
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 font-outfit min-h-screen">
       {/* 1. Header Profile with Squircle Avatar */}
@@ -170,6 +191,53 @@ export default function ProfilePage() {
                 <span>Thời gian học tuần này:</span>
                 <span className="font-bold text-slate-900">120 phút</span>
               </div>
+            </div>
+          </div>
+
+          {/* Thiết lập bảo mật & Đăng nhập sinh trắc học (FaceID / Passkeys) */}
+          <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm space-y-6">
+            <h3 className="text-lg font-bold text-slate-950 flex items-center gap-2">
+              <Fingerprint size={18} className="text-teal-650" />
+              Đăng nhập sinh trắc học
+            </h3>
+
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Kích hoạt đăng nhập bằng vân tay hoặc nhận diện khuôn mặt (FaceID / Passkey) để truy
+              cập nhanh tài khoản mà không cần nhập mật khẩu.
+            </p>
+
+            <div className="pt-2">
+              {isPasskeySupported ? (
+                isRegistered ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-teal-50 border border-teal-200 text-teal-800 text-xs font-bold">
+                      <CheckCircle size={16} className="text-teal-600 flex-shrink-0" />
+                      <span>Thiết bị đã được liên kết sinh trắc học thành công!</span>
+                    </div>
+                    <button
+                      onClick={handleRegisterPasskey}
+                      className="w-full py-2.5 rounded-xl border border-teal-600 text-teal-600 hover:bg-teal-50 text-xs font-bold transition-all active:scale-95 text-center"
+                    >
+                      Liên kết lại thiết bị
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleRegisterPasskey}
+                    className="w-full py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-md shadow-teal-600/10 transition-all active:scale-95 text-center flex items-center justify-center gap-2"
+                  >
+                    <Fingerprint size={14} />
+                    <span>Liên kết thiết bị này</span>
+                  </button>
+                )
+              ) : (
+                <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
+                  <span className="text-amber-500 font-black flex-shrink-0">⚠️</span>
+                  <span>
+                    Thiết bị hoặc trình duyệt của bạn không hỗ trợ hoặc chưa bật Passkey/FaceID.
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -55,24 +55,26 @@ export default function SignUpForm() {
     try {
       setLoading(true);
 
-      // Gửi API đăng ký thực tế
-      const res = await axiosInstance.post('/auth/register', {
-        name: fullname,
-        email,
-        password,
+      // Gửi API đăng ký qua Route Supabase Auth
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullname, email, password }),
       });
 
-      if (res.data.success) {
-        toast.success('Đăng ký tài khoản thành công! Vui lòng đăng nhập.');
+      const resData = await response.json();
+
+      if (response.ok && resData.success) {
+        toast.success(resData.message || 'Đăng ký tài khoản thành công!');
         setTimeout(() => {
           router.push('/login');
-        }, 800);
+        }, 2000);
       } else {
-        toast.error(res.data.error_cont || 'Đăng ký thất bại!');
+        toast.error(resData.message || 'Đăng ký thất bại!');
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      const message = error?.response?.data?.error_cont || 'Đã có lỗi xảy ra!';
+      const message = error?.message || 'Đã có lỗi xảy ra!';
       toast.error(message);
     } finally {
       setLoading(false);
