@@ -36,11 +36,35 @@ Nền tảng website hiện đại giúp học viên tự học tiếng Hàn tr�
 
 ---
 
+## 📂 Cấu trúc thư mục dự án (Project Folder Structure)
+
+Dự án được xây dựng dựa trên Next.js 15 App Router với cấu trúc thư mục phân tách rõ ràng theo chức năng:
+
+*   **`src/app/`**: Thư mục định tuyến chính của Next.js (App Router).
+    *   **`api/auth/`**: Hệ thống các API Routes xử lý xác thực bảo mật qua HttpOnly Cookies:
+        *   `login/route.ts`: Xác thực tài khoản với Supabase Auth, thiết lập cookies phiên đăng nhập.
+        *   `register/route.ts`: Xử lý đăng ký và gửi mail kích hoạt tài khoản.
+        *   `logout/route.ts`: Thu hồi session và xóa toàn bộ cookie liên quan.
+        *   `refresh/route.ts`: Làm mới access token bằng refresh token.
+        *   `callback/route.ts`: Tiếp nhận OAuth callback của Google.
+        *   `passkey-login/route.ts`: Cấp session đăng nhập sinh trắc học trực tiếp.
+    *   **`admin/`**: Các trang quản trị hệ thống Admin CMS (Dashboard, Users, Roles, Courses, Lessons, Questions, Vocabulary, Analytics, Settings, Audit logs).
+    *   **`[locale]/`**: Các trang giao diện dành cho học viên đa ngôn ngữ (Trang chủ Portal, Danh sách khóa học, Chi tiết bài giảng, Phòng Luyện tập Quiz/Flashcard, Trang cá nhân Profile).
+*   **`src/components/`**: Chứa các UI Components dùng chung (Header, Footer, form Inputs, Label, Button, các Confirm Modals).
+*   **`src/service/`**: Chứa các dịch vụ gọi API và trung gian điều khiển:
+    *   `authService.ts`: Điều phối đăng nhập, đăng ký và đăng xuất của học viên.
+    *   `passkeyService.ts`: Tích hợp **WebAuthn API** để đăng ký và xác thực vân tay/FaceID trên thiết bị.
+*   **`src/core/`**: Cấu hình cơ sở hạ tầng, cơ sở dữ liệu Supabase, định nghĩa mã lỗi và Logger tùy chỉnh.
+*   **`src/middleware.ts`**: Server-side Middleware bảo vệ các tuyến đường `/admin` thông qua kiểm tra JWT cookies an toàn.
+
+---
+
 ## 📂 Cấu trúc quản lý tiến độ (Project Management)
 
 Tiến độ phát triển và các đầu việc của dự án được quản lý chi tiết trong thư mục `Process/`:
 *   `Process/Sprint_1/ui_web_homepage.md`: Kế hoạch và các task phát triển giao diện phía học viên (Web Homepage).
 *   `Process/Sprint_2/ui_cms.md`: Kế hoạch phát triển giao diện quản trị (Admin CMS), tích hợp các đề xuất biểu đồ thống kê chuyên sâu kèm hình ảnh mockup minh họa trực tiếp.
+*   `Process/Sprint_3/tasks.md`: Nhật ký hoàn thành hệ thống xác thực Supabase Auth, bảo mật HttpOnly Cookies, Google OAuth và đăng nhập vân tay/FaceID.
 
 ---
 

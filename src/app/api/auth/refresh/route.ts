@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     const refreshToken = cookies['refresh_token'];
 
     if (!refreshToken) {
-      logger.warn('Không tìm thấy refresh_token cookie để gia hạn.');
+      logger.info('Không tìm thấy refresh_token cookie để gia hạn.');
       return NextResponse.json(
         {
           success: false,
@@ -76,7 +76,10 @@ export async function POST(request: Request) {
     const session = data.session;
     const user = data.user;
 
-    logger.success(ResponseCode.SYS_SUCCESS, 'Gia hạn session thành công!', { email: user.email });
+    logger.success(ResponseCode.SYS_SUCCESS, {
+      message: 'Gia hạn session thành công!',
+      email: user.email,
+    });
 
     const response = NextResponse.json({
       success: true,

@@ -18,7 +18,7 @@ export async function POST() {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      logger.warn('Không thể thu hồi session trên Supabase (có thể đã hết hạn):', error.message);
+      logger.info('Không thể thu hồi session trên Supabase (có thể đã hết hạn):', error.message);
     } else {
       logger.success(ResponseCode.AUTH_LOGOUT);
     }
