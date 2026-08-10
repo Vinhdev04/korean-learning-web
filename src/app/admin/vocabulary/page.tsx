@@ -1,32 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Search,
   Filter,
-  Download,
   Upload,
   Plus,
   Edit3,
   Trash2,
-  CheckCircle,
   AlertCircle,
   FileSpreadsheet,
   Eye,
 } from 'lucide-react';
 import Link from 'next/link';
-
-/**
- * Interface đại diện cho cấu trúc một từ vựng
- */
-interface VocabItem {
-  id: string;
-  word: string; // Tiếng Hàn
-  pronunciation: string; // Phiên âm
-  meaning: string; // Nghĩa tiếng Việt
-  courseTitle: string;
-  lessonTitle: string;
-}
+import { toast } from 'react-toastify';
+import { useVocabManagement } from '@/modules/admin/hooks/useVocabManagement';
 
 /**
  * Trang quản lý Kho từ vựng tiếng Hàn (Vocabulary Repository CMS)
@@ -34,150 +22,24 @@ interface VocabItem {
  * @returns React Component
  */
 export default function AdminVocabularyPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [courseFilter, setCourseFilter] = useState('All');
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  // Trạng thái hiển thị preview nhập file Excel
-  const [showImportPreview, setShowImportPreview] = useState(false);
-  const [importing, setImporting] = useState(false);
-
-  // Mock danh sách từ vựng chính trong hệ thống
-  const [vocabList, setVocabList] = useState<VocabItem[]>([
-    {
-      id: 'VOC-001',
-      word: '안녕하세요',
-      pronunciation: '[an-nyeong-ha-se-yo]',
-      meaning: 'Xin chào',
-      courseTitle: 'Tiếng Hàn Sơ Cấp 1',
-      lessonTitle: 'Bài 1: Nguyên âm & Phụ âm',
-    },
-    {
-      id: 'VOC-002',
-      word: '감사합니다',
-      pronunciation: '[kam-sa-ham-ni-da]',
-      meaning: 'Cảm ơn',
-      courseTitle: 'Tiếng Hàn Sơ Cấp 1',
-      lessonTitle: 'Bài 1: Nguyên âm & Phụ âm',
-    },
-    {
-      id: 'VOC-003',
-      word: '학교',
-      pronunciation: '[hak-gyo]',
-      meaning: 'Trường học',
-      courseTitle: 'Tiếng Hàn Sơ Cấp 1',
-      lessonTitle: 'Bài 2: Trường học & Nghề nghiệp',
-    },
-    {
-      id: 'VOC-004',
-      word: '선생님',
-      pronunciation: '[seon-saeng-nim]',
-      meaning: 'Giáo viên',
-      courseTitle: 'Tiếng Hàn Sơ Cấp 1',
-      lessonTitle: 'Bài 2: Trường học & Nghề nghiệp',
-    },
-    {
-      id: 'VOC-005',
-      word: '사과',
-      pronunciation: '[sa-gwa]',
-      meaning: 'Quả táo',
-      courseTitle: 'Tiếng Hàn Sơ Cấp 2',
-      lessonTitle: 'Bài 3: Mua sắm hàng ngày',
-    },
-  ]);
-
-  // Dữ liệu mock để xem trước (preview) khi import file Excel
-  const mockExcelData: VocabItem[] = [
-    {
-      id: 'VOC-TEMP-01',
-      word: '사랑',
-      pronunciation: '[sa-rang]',
-      meaning: 'Tình yêu',
-      courseTitle: 'Tiếng Hàn Sơ Cấp 2',
-      lessonTitle: 'Bài 4: Biểu đạt cảm xúc',
-    },
-    {
-      id: 'VOC-TEMP-02',
-      word: '친구',
-      pronunciation: '[chin-gu]',
-      meaning: 'Bạn bè',
-      courseTitle: 'Tiếng Hàn Sơ Cấp 1',
-      lessonTitle: 'Bài 2: Trường học & Nghề nghiệp',
-    },
-    {
-      id: 'VOC-TEMP-03',
-      word: '음식',
-      pronunciation: '[eum-sik]',
-      meaning: 'Thức ăn / Món ăn',
-      courseTitle: 'Tiếng Hàn Sơ Cấp 2',
-      lessonTitle: 'Bài 3: Mua sắm hàng ngày',
-    },
-  ];
-
-  /**
-   * Hiển thị thông báo nhanh trong 3 giây
-   * @param message Nội dung thông báo
-   */
-  const showToast = (message: string) => {
-    setToastMessage(message);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
-  };
-
-  /**
-   * Giả lập quá trình đọc file và hiển thị bản xem trước Excel
-   */
-  const handleStartImport = () => {
-    setImporting(true);
-    setTimeout(() => {
-      setImporting(false);
-      setShowImportPreview(true);
-      showToast('Đã đọc file Excel thành công! Vui lòng xem trước dữ liệu bên dưới.');
-    }, 1500);
-  };
-
-  /**
-   * Xác nhận lưu chính thức các từ vựng xem trước từ Excel vào cơ sở dữ liệu
-   */
-  const handleConfirmSaveImport = () => {
-    // Thêm các từ tạm thời vào list chính thức
-    setVocabList(prev => [...prev, ...mockExcelData]);
-    setShowImportPreview(false);
-    showToast(`Đã import thành công ${mockExcelData.length} từ vựng mới vào kho từ vựng!`);
-  };
-
-  /**
-   * Giả lập xóa từ vựng
-   * @param id ID từ vựng cần xóa
-   */
-  const handleDeleteVocab = (id: string) => {
-    setVocabList(prev => prev.filter(v => v.id !== id));
-    showToast('Đã xóa từ vựng khỏi kho lưu trữ thành công!');
-  };
-
-  // Lọc từ vựng dựa theo search và course dropdown
-  const filteredVocab = vocabList.filter(vocab => {
-    const matchesSearch =
-      vocab.word.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      vocab.meaning.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      vocab.pronunciation.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesCourse = courseFilter === 'All' || vocab.courseTitle === courseFilter;
-
-    return matchesSearch && matchesCourse;
-  });
+  const {
+    searchQuery,
+    setSearchQuery,
+    courseFilter,
+    setCourseFilter,
+    showImportPreview,
+    setShowImportPreview,
+    importing,
+    vocabList,
+    mockExcelData,
+    filteredVocab,
+    handleStartImport,
+    handleConfirmSaveImport,
+    handleDeleteVocab,
+  } = useVocabManagement();
 
   return (
     <div className="space-y-8 font-outfit text-slate-800 dark:text-slate-200">
-      {/* Toast Alert */}
-      {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 rounded-2xl bg-slate-900 dark:bg-slate-800 text-white px-5 py-3.5 shadow-2xl border border-slate-700/50 animate-in fade-in slide-in-from-bottom-5 duration-300">
-          <CheckCircle size={16} className="text-orange-500" />
-          <span className="text-xs font-bold">{toastMessage}</span>
-        </div>
-      )}
-
       {/* Tiêu đề & Công Cụ Nút bấm */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -201,7 +63,7 @@ export default function AdminVocabularyPage() {
           </button>
 
           <button
-            onClick={() => showToast('Tính năng Thêm từ vựng mới sẽ được tích hợp ở Sprint sau!')}
+            onClick={() => toast.info('Tính năng Thêm từ vựng mới sẽ được tích hợp ở Sprint sau!')}
             className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 text-white px-5 py-3 text-sm font-bold shadow-md shadow-orange-500/25 active:scale-95 transition-all"
           >
             <Plus size={16} />
@@ -397,7 +259,7 @@ export default function AdminVocabularyPage() {
                     <td className="py-4.5 pr-6 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         <button
-                          onClick={() => showToast(`Chỉnh sửa từ vựng: ${vocab.word}`)}
+                          onClick={() => toast.info(`Chỉnh sửa từ vựng: ${vocab.word}`)}
                           className="h-8 w-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                           title="Sửa từ vựng"
                         >

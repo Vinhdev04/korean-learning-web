@@ -345,45 +345,46 @@
   }
 }
 
-/* Tùy biến giao diện React-Toastify - Phong cách Modern Glassmorphism cao cấp */
+/* Tùy biến giao diện React-Toastify - Phong cách Seoul Sunset Glassmorphism cao cấp */
 .Toastify__toast-container {
   z-index: 99999 !important;
 }
 
 .Toastify__toast {
-  border-radius: 16px !important;
-  font-family: var(--font-sans), sans-serif !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(8px) !important;
-  padding: 16px 20px !important;
-  min-height: 60px !important;
+  border-radius: 20px !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 20px 30px -10px rgba(249, 115, 22, 0.15), 0 10px 20px -10px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(16px) !important;
+  padding: 14px 18px !important;
+  min-height: 55px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* Đăng nhập/Đăng ký thành công (Success) */
+/* Đăng nhập/Đăng ký thành công (Success Toast) - Seoul Sunset Orange Tint */
 .Toastify__toast--success {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  color: #065f46 !important; /* emerald-800 */
-  border-color: rgba(16, 185, 129, 0.25) !important;
+  background-color: rgba(254, 243, 199, 0.85) !important; /* Hổ phách mờ */
+  color: #c2410c !important; /* Cam sậm */
+  border-color: rgba(249, 115, 22, 0.25) !important;
   
   .Toastify__toast-icon {
     svg {
-      fill: #10b981 !important; /* emerald-500 */
+      fill: #f97316 !important; /* Cam tươi */
     }
   }
 }
 
-/* Đăng nhập/Đăng ký thất bại hoặc lỗi (Error) */
+/* Đăng nhập/Đăng ký thất bại hoặc lỗi (Error Toast) - Rose/Red Tint */
 .Toastify__toast--error {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  color: #991b1b !important; /* red-800 */
-  border-color: rgba(225, 25, 42, 0.25) !important;
+  background-color: rgba(255, 228, 230, 0.85) !important; /* Hồng mờ */
+  color: #9f1239 !important; /* Đỏ hồng sậm */
+  border-color: rgba(225, 29, 72, 0.25) !important;
   
   .Toastify__toast-icon {
     svg {
-      fill: #e1192a !important; /* koreanRed */
+      fill: #e11d48 !important; /* Rose-600 */
     }
   }
 }
@@ -391,53 +392,56 @@
 /* Hỗ trợ chế độ tối (Dark Mode) */
 .dark {
   .Toastify__toast {
-    border-color: rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5) !important;
   }
   
   .Toastify__toast--success {
-    background-color: rgba(28, 25, 23, 0.95) !important; /* stone-900 */
-    color: #a7f3d0 !important; /* emerald-200 */
+    background-color: rgba(24, 20, 15, 0.9) !important; /* Slate tối ánh cam */
+    color: #fdba74 !important; /* Cam nhạt */
+    border-color: rgba(249, 115, 22, 0.15) !important;
     
     .Toastify__toast-icon {
       svg {
-        fill: #34d399 !important;
+        fill: #fb923c !important;
       }
     }
   }
   
   .Toastify__toast--error {
-    background-color: rgba(28, 25, 23, 0.95) !important;
-    color: #fca5a5 !important; /* red-300 */
+    background-color: rgba(24, 15, 15, 0.9) !important; /* Slate tối ánh đỏ */
+    color: #fecdd3 !important; /* Đỏ nhạt */
+    border-color: rgba(225, 29, 72, 0.15) !important;
     
     .Toastify__toast-icon {
       svg {
-        fill: #f87171 !important;
+        fill: #fb7185 !important;
       }
     }
   }
 }
 
-/* Thanh thời gian chạy (Progress Bar) mảnh và đẹp mắt */
+/* Thanh thời gian chạy (Progress Bar) mảnh và đẹp mắt dạng gradient hoàng hôn */
 .Toastify__progress-bar {
-  height: 3px !important;
+  height: 4px !important;
+  border-bottom-left-radius: 4px !important;
 }
 
 .Toastify__progress-bar--success {
-  background: linear-gradient(to right, #34d399, #10b981) !important;
+  background: linear-gradient(to right, #f97316, #e11d48) !important; /* Cam -> Rose */
 }
 
 .Toastify__progress-bar--error {
-  background: linear-gradient(to right, #f87171, #e1192a) !important;
+  background: linear-gradient(to right, #f43f5e, #9f1239) !important; /* Rose -> Đỏ sậm */
 }
 
 /* Nút X đóng thông báo */
 .Toastify__close-button {
-  color: #a8a29e !important; /* stone-400 */
+  color: #a8a29e !important;
   opacity: 0.6;
   transition: opacity 0.2s;
   
   &:hover {
-    color: #78716c !important; /* stone-500 */
+    color: #78716c !important;
     opacity: 1;
   }
 }

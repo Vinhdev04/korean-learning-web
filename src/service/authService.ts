@@ -1,14 +1,10 @@
 import { useState } from 'react';
-import axiosInstance from '@/core/hooks/useAxiosService';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { encryptForClient } from '@/lib/rsa-encrypt';
 import { supabase } from '@/core/database/supabase/client';
-
-export interface authen {
-  username: string;
-  password: string;
-}
+import { ResponseCode, formatSystemMessage } from '@/core/types/responseCode';
+import { logger } from '@/core/lib/logger';
+import { authen } from '@/modules/admin/types/auth';
 
 /**
  * Dịch vụ Xác thực người dùng (AuthService)
@@ -25,21 +21,6 @@ const AuthService = () => {
    * @param token Chuỗi Access Token JWT của phiên đăng nhập
    */
   const setSession = (id: string | number, token?: string) => {
-    // OLD:
-    // if (id > 0) {
-    //   // Lưu userID và token vào cookies
-    //   document.cookie = `user_id=${id}; path=/; max-age=28800`;  // Lưu user_id cookie với max-age 8 giờ
-    //   if (token) {
-    //     document.cookie = `token=${token}; path=/; max-age=28800`;  // Lưu token cookie với max-age 8 giờ
-    //   }
-    //   router.push('/admin');
-    // } else {
-    //   // Xóa cookies khi logout
-    //   document.cookie = 'user_id=; path=/; max-age=0';  // Xóa user_id cookie
-    //   document.cookie = 'token=; path=/; max-age=0';  // Xóa token cookie
-    //   router.push('/login');
-    // }
-
     const isVal = typeof id === 'number' ? id > 0 : id && id.trim() !== '';
 
     if (isVal) {
@@ -60,33 +41,9 @@ const AuthService = () => {
    * @param param0 authen interface chứa username (Email) và password
    */
   const Login = async ({ username, password }: authen) => {
-    // OLD:
-    // const encryptedEmail = encryptForClient(password);
-    // setLoading(true);
-    // try {
-    //   const res = await axiosInstance.post('/authen/login', {
-    //     data: { user_nm: username, password: encryptedEmail },
-    //   });
-    //   if (res.data.res_code === '0') {
-    //     toast.error(res.data.error_cont || 'Đã xảy ra lỗi');
-    //   } else {
-    //     toast.success(res.data.error_cont || 'Đăng nhập thành công');
-    //     // Lấy token, userID từ API response
-    //     const token = res.data.data.token;
-    //     const userID = res.data.data.rows[0].id;
-    //     setSession(userID, token); // Gọi setSession để lưu thông tin vào cookie
-    //   }
-    // } catch (err: any) {
-    //   if (err?.response) {
-    //      toast.error(err.response.data?.error_cont || err.message);
-    //   } else {
-    //     toast.error(String(err));
-    //   }
-    // } finally {
-    //   setLoading(false);
-    // }
-
     setLoading(true);
+    logger.info('Bắt đầu xử lý đăng nhập qua Supabase Auth...', { email: username });
+
     try {
       // Xác thực đăng nhập qua dịch vụ Supabase Authentication
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -95,18 +52,27 @@ const AuthService = () => {
       });
 
       if (error) {
-        toast.error(error.message || 'Đăng nhập thất bại, vui lòng kiểm tra lại thông tin.');
+        logger.error(ResponseCode.AUTH_FAILED, error);
+        toast.error(formatSystemMessage(ResponseCode.AUTH_FAILED, error.message));
       } else {
-        toast.success('Đăng nhập thành công!');
         const sessionToken = data.session?.access_token;
         const userID = data.user?.id;
+
+        logger.success(ResponseCode.AUTH_SUCCESS, {
+          userId: userID,
+          email: data.user?.email,
+          createdAt: data.user?.created_at,
+        });
+
+        toast.success(formatSystemMessage(ResponseCode.AUTH_SUCCESS));
 
         if (userID && sessionToken) {
           setSession(userID, sessionToken);
         }
       }
     } catch (err: any) {
-      toast.error(err.message || String(err));
+      logger.error(ResponseCode.SYS_ERROR, err);
+      toast.error(formatSystemMessage(ResponseCode.SYS_ERROR, err.message));
     } finally {
       setLoading(false);
     }
@@ -116,26 +82,14 @@ const AuthService = () => {
    * Đăng xuất khỏi hệ thống và hủy phiên đăng nhập Supabase
    */
   const logOut = async () => {
-    // OLD:
-    // try {
-    //   await axiosInstance.post('/authen/logout');
-    // } catch (err) {
-    //   if (err instanceof Error) {
-    //     console.log(err.message);
-    //   } else {
-    //     console.log(String(err));
-    //   }
-    // } finally {
-    //   // Xóa cookies khi logout
-    //   setSession(0); // Gọi lại setSession với userID = 0 để xóa cookies
-    //   router.push('/login');
-    // }
-
+    logger.info('Yêu cầu đăng xuất người dùng...');
     try {
       // Hủy phiên đăng nhập trực tiếp trên máy chủ Supabase Auth
       await supabase.auth.signOut();
+      logger.success(ResponseCode.AUTH_LOGOUT);
+      toast.success(formatSystemMessage(ResponseCode.AUTH_LOGOUT));
     } catch (err) {
-      console.error('Lỗi khi đăng xuất khỏi Supabase:', err);
+      logger.error(ResponseCode.SYS_ERROR, err);
     } finally {
       // Xóa các cookie phiên làm việc
       setSession('');
@@ -148,46 +102,34 @@ const AuthService = () => {
    * @returns Promise<boolean> Trả về true nếu phiên còn hạn, false nếu hết hạn hoặc không hợp lệ.
    */
   const checkSession = async () => {
-    // OLD:
-    // const sessionUserID = Number(getCookie('user_id') || '0');  // Lấy user_id từ cookie
-    // const sessionToken = getCookie('token');  // Lấy token từ cookie
-    // if (!sessionUserID || sessionUserID <= 0 || !sessionToken) {
-    //   logOut();
-    //   return false;
-    // }
-    // try {
-    //   const res = await axiosInstance.post('/authen/check-session');
-    //   if (!res.data?.data?.valid) {
-    //     logOut();
-    //     return false;
-    //   }
-    //   return true;
-    // } catch (err) {
-    //   console.error('Check session error:', err);
-    //   logOut();
-    //   return false;
-    // }
-
     const sessionToken = getCookie('token');
     const sessionUserID = getCookie('user_id');
 
+    logger.info('Đang kiểm tra Session Cookies...', { sessionUserID, hasToken: !!sessionToken });
+
     if (!sessionToken || !sessionUserID) {
+      logger.error(ResponseCode.AUTH_EXPIRED, 'Thiếu user_id hoặc token cookie.');
       logOut();
       return false;
     }
 
     try {
-      // Lấy và kiểm tra trực tiếp thông tin session từ Supabase Client SDK (nếu token hết hạn, SDK sẽ tự refresh qua refresh_token)
+      // Lấy và kiểm tra trực tiếp thông tin session từ Supabase Client SDK
       const { data, error } = await supabase.auth.getSession();
 
       if (error || !data.session) {
+        logger.error(ResponseCode.AUTH_EXPIRED, error || 'Không tìm thấy session trên Supabase.');
         logOut();
         return false;
       }
 
+      logger.success(ResponseCode.SYS_SUCCESS, {
+        valid: true,
+        expiresAt: new Date((data.session.expires_at || 0) * 1000).toLocaleString(),
+      });
       return true;
     } catch (err) {
-      console.error('Lỗi trong quá trình kiểm tra Session:', err);
+      logger.error(ResponseCode.SYS_ERROR, err);
       logOut();
       return false;
     }
