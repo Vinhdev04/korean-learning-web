@@ -58,7 +58,7 @@ export default function AdminAnalyticsPage() {
       yaxis: {
         labels: { style: { colors: '#94a3b8', fontFamily: 'Outfit, sans-serif' } },
       },
-      tooltip: { theme: 'dark' },
+      tooltip: { theme: 'dark' as const },
       grid: { borderColor: '#e2e8f0', strokeDashArray: 4 },
       legend: { position: 'top' as const, labels: { colors: '#64748b' } },
     },
