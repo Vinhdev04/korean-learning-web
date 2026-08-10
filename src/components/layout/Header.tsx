@@ -104,6 +104,24 @@ export default function HeaderClient() {
     : 'fixed top-0 left-0 w-full bg-white/95 dark:bg-stone-950/95 border-b border-stone-200/50 dark:border-stone-850/80 backdrop-blur-md text-charcoal dark:text-stone-100 z-50 transition-all duration-300 shadow-sm';
 
   /**
+   * Kiểm tra xem đường dẫn hiện tại có active với menu tương ứng không.
+   * Đã chuẩn hóa và loại bỏ locale prefix.
+   */
+  const isActive = (path: string, exact = false): boolean => {
+    const segments = pathname.split('/');
+    const hasLocalePrefix = segments[1] === 'vn' || segments[1] === 'en';
+    const basePathname = hasLocalePrefix ? '/' + segments.slice(2).join('/') : pathname;
+    const cleanBasePathname =
+      basePathname.endsWith('/') && basePathname.length > 1
+        ? basePathname.slice(0, -1)
+        : basePathname;
+
+    return exact
+      ? cleanBasePathname === '/' || cleanBasePathname === ''
+      : cleanBasePathname === path || cleanBasePathname.startsWith(path + '/');
+  };
+
+  /**
    * Trả về danh sách class CSS cho các liên kết menu trên Navbar dựa trên trạng thái active.
    * Đồng thời chuẩn hóa và xử lý loại bỏ locale prefix để so sánh active chính xác.
    *
@@ -112,34 +130,8 @@ export default function HeaderClient() {
    * @returns Chuỗi class CSS chứa các style về màu sắc, hover và nền active
    */
   const getMenuLinkClass = (path: string, exact = false) => {
-    // OLD:
-    // const cleanPathname =
-    //   pathname.endsWith('/') && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
-    // const homePath = `/${locale}`;
-    // const targetPath = path ? `/${locale}${path}` : homePath;
-    //
-    // // OLD: const active = exact ? pathname === `/${locale}` || pathname === '/' : isActive(path);
-    // const active = exact
-    //   ? cleanPathname === homePath || cleanPathname === '/'
-    //   : cleanPathname === targetPath || cleanPathname.startsWith(targetPath + '/');
-
-    // Mảng các segments tách ra từ pathname hiện tại
-    const segments = pathname.split('/');
-    // Kiểm tra xem segment đầu tiên sau dấu gạch chéo có phải là locale (vn hoặc en) không
-    const hasLocalePrefix = segments[1] === 'vn' || segments[1] === 'en';
-    // Đường dẫn gốc sau khi đã lọc bỏ locale prefix (ví dụ: '/vn/courses' thành '/courses')
-    const basePathname = hasLocalePrefix ? '/' + segments.slice(2).join('/') : pathname;
-
-    // Đường dẫn gốc chuẩn hóa (loại bỏ dấu '/' ở cuối nếu có)
-    const cleanBasePathname =
-      basePathname.endsWith('/') && basePathname.length > 1
-        ? basePathname.slice(0, -1)
-        : basePathname;
-
     // Trạng thái active của liên kết menu hiện tại
-    const active = exact
-      ? cleanBasePathname === '/' || cleanBasePathname === ''
-      : cleanBasePathname === path || cleanBasePathname.startsWith(path + '/');
+    const active = isActive(path, exact);
 
     if (isHomePage && !isScrolled) {
       return `px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${
