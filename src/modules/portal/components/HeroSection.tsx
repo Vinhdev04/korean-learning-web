@@ -133,7 +133,7 @@ export default function HeroSection({ t, openAuthModal }: HeroSectionProps) {
       y: 0,
       transition: {
         duration: 0.8,
-        ease: [0.16, 1, 0.3, 1], // EaseOut expo curve tự nhiên
+        ease: [0.16, 1, 0.3, 1] as const, // EaseOut expo curve tự nhiên
       },
     },
   };
